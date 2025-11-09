@@ -1,0 +1,70 @@
+# generated: 2025-01-08
+# project: personal-blog
+# project_key: personal-blog
+# tracking_system: file-system
+# story_location: {project-root}/docs/stories
+
+# STATUS DEFINITIONS:
+# ==================
+# Epic Status:
+#   - backlog: Epic exists in epic file but not contexted
+#   - contexted: Epic tech context created (required before drafting stories)
+#
+# Story Status:
+#   - backlog: Story only exists in epic file
+#   - drafted: Story file created in stories folder
+#   - ready-for-dev: Draft approved and story context created
+#   - in-progress: Developer actively working on implementation
+#   - review: Under SM review (via code-review workflow)
+#   - done: Story completed
+#
+# Retrospective Status:
+#   - optional: Can be completed but not required
+#   - completed: Retrospective has been done
+#
+# WORKFLOW NOTES:
+# ===============
+# - Epics should be 'contexted' before stories can be 'drafted'
+# - Stories can be worked in parallel if team capacity allows
+# - SM typically drafts next story after previous one is 'done' to incorporate learnings
+# - Dev moves story to 'review', SM reviews, then Dev moves to 'done'
+
+generated: 2025-01-08
+project: personal-blog
+project_key: personal-blog
+tracking_system: file-system
+story_location: "{project-root}/docs/stories"
+
+development_status:
+  epic-1: contexted
+  1-1-initialize-project-with-starter-template-and-docker-compose: done
+  1-2-configure-jekyll-with-default-minima-theme: backlog
+  1-3-define-article-structure-and-front-matter-template: backlog
+  1-4-implement-draft-management-workflow: backlog
+  1-5-set-up-local-preview-with-live-reload: backlog
+  epic-1-retrospective: optional
+
+  epic-2: backlog
+  2-1-set-up-github-actions-workflow: backlog
+  2-2-implement-jekyll-build-automation-in-ci-cd: backlog
+  2-3-configure-github-pages-deployment: backlog
+  2-4-implement-git-diff-based-change-detection: backlog
+  2-5-configure-workflow-notifications-and-error-reporting: backlog
+  epic-2-retrospective: optional
+
+  epic-3: backlog
+  3-1-create-platform-agnostic-markdown-conversion-framework: backlog
+  3-2-implement-dev-to-platform-adapter: backlog
+  3-3-implement-medium-platform-adapter: backlog
+  3-4-implement-hashnode-platform-adapter: backlog
+  3-5-configure-canonical-urls-for-all-platforms: backlog
+  3-6-implement-error-handling-and-graceful-degradation: backlog
+  epic-3-retrospective: optional
+
+  epic-4: backlog
+  4-1-write-and-publish-articles-1-2-with-working-code-examples: backlog
+  4-2-write-and-publish-articles-3-4-with-working-code-examples: backlog
+  4-3-write-and-publish-articles-5-6-with-working-code-examples: backlog
+  4-4-write-and-publish-articles-7-8-with-working-code-examples: backlog
+  4-5-write-and-publish-articles-9-10-with-working-code-examples: backlog
+  epic-4-retrospective: optional

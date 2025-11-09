@@ -1,0 +1,201 @@
+<story-context id="bmad/bmm/workflows/4-implementation/story-context/template" v="1.0">
+  <metadata>
+    <epicId>1</epicId>
+    <storyId>1.1</storyId>
+    <title>Initialize Jekyll Project Structure</title>
+    <status>drafted</status>
+    <generatedAt>2025-01-08</generatedAt>
+    <generator>BMAD Story Context Workflow</generator>
+    <sourceStoryPath>docs/stories/1-1-initialize-project-with-starter-template-and-docker-compose.md</sourceStoryPath>
+  </metadata>
+
+  <story>
+    <asA>developer</asA>
+    <iWant>create the basic Jekyll project structure with GitHub Pages compatibility</iWant>
+    <soThat>I have a foundation for the blog with proper configuration and can begin local development</soThat>
+    <tasks>
+- Task 1: Create Project Structure (15 min)
+- Task 2: Configure Docker Compose (20 min)
+- Task 3: Configure Ruby Dependencies (20 min)
+- Task 4: Configure Jekyll (20 min)
+- Task 5: Configure Git (10 min)
+- Task 6: Create Documentation (30 min)
+- Task 7: Validate Environment (30 min)
+    </tasks>
+  </story>
+
+  <acceptanceCriteria>
+AC-1.1.1: Docker Compose Configuration
+- docker-compose.yml file created with jekyll/jekyll:3.9 image
+- docker-compose up successfully starts Jekyll server on port 4000
+- LiveReload server accessible on port 35729
+- Environment variable JEKYLL_ENV=development configured
+- Volume mount .:/srv/jekyll configured for file sharing
+- Command includes --drafts --livereload --host 0.0.0.0 flags
+
+AC-1.1.2: Project Directory Structure
+- _posts/ directory created for published articles
+- _drafts/ directory created for unpublished drafts
+- assets/images/ directory created for article images
+- _site/ directory excluded from Git (build output)
+- .jekyll-cache/ directory excluded from Git
+
+AC-1.1.3: Git Configuration
+- .gitignore file created
+- .gitignore includes _site/, Gemfile.lock, .jekyll-cache/
+- .gitignore includes vendor/bundle and other Jekyll artifacts
+- Git repository initialized (if not already)
+
+AC-1.1.4: Ruby Dependencies
+- Gemfile created with Jekyll 3.9.3 dependency
+- Gemfile includes minima theme (~> 2.5)
+- Gemfile includes jekyll-feed plugin (~> 0.12)
+- Gemfile includes jekyll-sitemap plugin (~> 1.4)
+- Platform-specific gems included (tzinfo for Windows, wdm for Windows file watching)
+
+AC-1.1.5: Jekyll Configuration
+- _config.yml created with basic site metadata
+- Site title: "Personal Technical Blog"
+- Markdown engine: kramdown
+- Theme: minima
+- Plugins configured: jekyll-feed, jekyll-sitemap
+- Exclude list includes Gemfile, node_modules, vendor, .git
+
+AC-1.1.6: Documentation
+- README.md created with setup instructions
+- README documents Docker Compose workflow (docker-compose up)
+- README documents local preview URL (http://localhost:4000)
+- README explains _drafts vs _posts workflow
+- README includes troubleshooting section (port conflicts, Docker setup)
+
+AC-1.1.7: Performance Validation
+- Local environment starts in <30 seconds from docker-compose up command
+- Jekyll server reports "Server running" message
+- Browser can access http://localhost:4000 successfully
+- No errors in Docker Compose logs during startup
+  </acceptanceCriteria>
+
+  <artifacts>
+    <docs>
+      <doc>
+        <path>docs/PRD.md</path>
+        <title>Product Requirements Document</title>
+        <section>FR-1.3: Local Preview</section>
+        <snippet>Docker Compose environment spins up local Jekyll/Hugo instance with live reload on file changes. Preview drafts and published articles locally before merging.</snippet>
+      </doc>
+      <doc>
+        <path>docs/PRD.md</path>
+        <title>Product Requirements Document</title>
+        <section>NFR-1: Performance</section>
+        <snippet>Docker Compose local preview starts in &lt;30 seconds. Live reload reflects changes in &lt;5 seconds. Static site build completes in &lt;2 minutes for 50 articles.</snippet>
+      </doc>
+      <doc>
+        <path>docs/architecture.md</path>
+        <title>Architecture Document</title>
+        <section>Project Initialization</section>
+        <snippet>Simple Jekyll project structure with jekyll/jekyll:3.9 Docker image. Gemfile for GitHub Pages compatibility with github-pages gem, jekyll-feed, and jekyll-seo-tag plugins.</snippet>
+      </doc>
+      <doc>
+        <path>docs/architecture.md</path>
+        <title>Architecture Document</title>
+        <section>Docker Compose Configuration</section>
+        <snippet>Docker Compose service using jekyll/jekyll:3.9 image with command 'jekyll serve --drafts --livereload --host 0.0.0.0'. Ports 4000 (server) and 35729 (LiveReload) exposed with volume mount to /srv/jekyll.</snippet>
+      </doc>
+      <doc>
+        <path>docs/architecture.md</path>
+        <title>Architecture Document</title>
+        <section>Project Structure</section>
+        <snippet>Directory structure includes _posts/ for published articles, _drafts/ for unpublished, assets/images/ for media, _site/ for build output (gitignored), and scripts/ for automation.</snippet>
+      </doc>
+      <doc>
+        <path>docs/architecture.md</path>
+        <title>Architecture Document</title>
+        <section>ADR-001: Use Jekyll 3.9.3</section>
+        <snippet>Jekyll 3.9.3 chosen for GitHub Pages native compatibility. Zero-config deployment, proven stability, simpler architecture. Limited to GitHub-approved plugins but faster to automation proven milestone.</snippet>
+      </doc>
+      <doc>
+        <path>docs/tech-spec-epic-1.md</path>
+        <title>Epic 1 Technical Specification</title>
+        <section>Docker Compose Configuration</section>
+        <snippet>Complete docker-compose.yml specification with jekyll/jekyll:3.9 image, command flags for drafts and livereload, port mappings (4000, 35729), volume mount, and JEKYLL_ENV=development.</snippet>
+      </doc>
+      <doc>
+        <path>docs/tech-spec-epic-1.md</path>
+        <title>Epic 1 Technical Specification</title>
+        <section>Jekyll Configuration (_config.yml)</section>
+        <snippet>Configuration includes site metadata (title, description, email), markdown: kramdown, theme: minima, plugins (jekyll-feed, jekyll-sitemap), and exclude list for Gemfile, node_modules, vendor.</snippet>
+      </doc>
+      <doc>
+        <path>docs/tech-spec-epic-1.md</path>
+        <title>Epic 1 Technical Specification</title>
+        <section>Gemfile Dependencies</section>
+        <snippet>Gemfile with Jekyll ~> 3.9.3, minima ~> 2.5, jekyll-feed ~> 0.12, jekyll-sitemap ~> 1.4 in plugins group. Platform-specific gems for Windows (tzinfo, wdm).</snippet>
+      </doc>
+      <doc>
+        <path>docs/tech-spec-epic-1.md</path>
+        <title>Epic 1 Technical Specification</title>
+        <section>AC-1.1: Project Initialization</section>
+        <snippet>Acceptance criteria specifies docker-compose.yml creation, successful startup on port 4000, LiveReload on 35729, directory structure (_posts/, _drafts/, assets/images/), .gitignore setup, and &lt;30 second startup time.</snippet>
+      </doc>
+    </docs>
+    <code>
+      <!-- No existing code - this is the initialization story -->
+    </code>
+    <dependencies>
+      <ruby>
+        <gem name="jekyll" version="~> 3.9.3" purpose="Static site generator, GitHub Pages compatible" />
+        <gem name="minima" version="~> 2.5" purpose="Default Jekyll theme" />
+        <gem name="jekyll-feed" version="~> 0.12" purpose="RSS feed generation" group="jekyll_plugins" />
+        <gem name="jekyll-sitemap" version="~> 1.4" purpose="SEO sitemap generation" group="jekyll_plugins" />
+        <gem name="tzinfo" version="~> 1.2" purpose="Timezone support for Windows" platforms="mingw,x64_mingw,mswin,jruby" />
+        <gem name="tzinfo-data" purpose="Timezone data for Windows" platforms="mingw,x64_mingw,mswin,jruby" />
+        <gem name="wdm" version="~> 0.1.1" purpose="File watching performance on Windows" platforms="mingw,x64_mingw,mswin" />
+      </ruby>
+      <docker>
+        <image name="jekyll/jekyll" tag="3.9" purpose="Official Jekyll Docker image with Ruby and dependencies pre-installed" />
+      </docker>
+      <system>
+        <requirement name="Docker" version="20.10+" purpose="Container runtime" />
+        <requirement name="Docker Compose" version="1.29+ or 2.x" purpose="Multi-container orchestration" />
+      </system>
+    </dependencies>
+  </artifacts>
+
+  <constraints>
+- MUST use Jekyll 3.9.3 for GitHub Pages native compatibility (ADR-001)
+- MUST use default Minima theme (no customization for MVP)
+- Docker Compose environment must match production GitHub Pages build
+- All content must be pure markdown with YAML front matter
+- Jekyll version pinned to ~> 3.9.3 in Gemfile
+- Docker image must be jekyll/jekyll:3.9 (specific tag, not latest)
+- Local environment must work cross-platform (macOS, Linux, Windows)
+- Performance: Docker Compose startup &lt;30 seconds (NFR-1)
+- Performance: Live reload cycle &lt;5 seconds (NFR-1)
+- File naming: Articles must follow YYYY-MM-DD-title.md format
+- Git: _site/, Gemfile.lock, .jekyll-cache/ must be excluded
+- No secrets in _config.yml or committed files
+  </constraints>
+  <interfaces>
+- Jekyll CLI: jekyll build, jekyll serve, jekyll clean
+- Docker Compose CLI: docker-compose up, docker-compose down
+- Jekyll server: http://localhost:4000 (main server)
+- LiveReload WebSocket: ws://localhost:35729 (auto-refresh)
+- File system: Input from _posts/ and _drafts/, output to _site/
+  </interfaces>
+  <tests>
+    <standards>Epic 1 is foundational infrastructure with manual validation for all acceptance criteria. No automated testing for local development setup. Test approach includes: environment setup testing, configuration testing, content authoring testing, workflow testing, and performance testing. All tests are manual validation with clear success criteria defined in the tech spec.</standards>
+    <locations>N/A - This story involves infrastructure setup only. Future stories will add tests in standard Jekyll/Ruby locations.</locations>
+    <ideas>
+- AC-1.1.1: Manual test - Run docker-compose up and verify server starts within 30 seconds on port 4000
+- AC-1.1.1: Manual test - Verify LiveReload accessible on port 35729 via browser DevTools
+- AC-1.1.2: Manual test - Verify all directories created (_posts/, _drafts/, assets/images/)
+- AC-1.1.3: Manual test - Verify .gitignore excludes _site/ and .jekyll-cache/ (run git status to confirm)
+- AC-1.1.4: Manual test - Verify Gemfile syntax is valid Ruby and contains all required gems
+- AC-1.1.5: Manual test - Verify _config.yml YAML syntax is valid and Jekyll builds successfully
+- AC-1.1.6: Manual test - Follow README instructions from scratch to verify completeness
+- AC-1.1.7: Performance test - Measure startup time from docker-compose up to "Server running" message (must be &lt;30 seconds)
+- Error case test - Start another service on port 4000 and verify clear error message about port conflict
+- Cross-platform test - Test on macOS, Linux, and/or Windows (if available)
+    </ideas>
+  </tests>
+</story-context>

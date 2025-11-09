@@ -1,0 +1,28 @@
+title: Personal Technical Blog
+email: james@example.com
+description: >-
+  Technical articles on cloud architecture, identity, GIS, and multi-language development.
+  Documenting the journey of building scalable systems and transferring knowledge.
+baseurl: "" # GitHub Pages will set this
+url: "" # GitHub Pages will set this
+
+# Build settings
+markdown: kramdown
+theme: minima
+plugins:
+  - jekyll-feed
+  - jekyll-sitemap
+
+# Exclude from processing
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - node_modules
+  - vendor
+  - .git
+  - .gitignore
+  - README.md
+  - bmad
+  - .claude
+  - .cursor
+  - docs

@@ -1,12 +1,12 @@
-version: '3'
 services:
-  jekyll:
-    image: jekyll/jekyll:4.0
-    command: jekyll serve --drafts --livereload --host 0.0.0.0
+  docusaurus:
+    image: node:20-alpine
+    working_dir: /app
+    command: sh -c "npm install && npm start -- --host 0.0.0.0 --port 3000"
     ports:
-      - "4000:4000"
-      - "35729:35729"  # LiveReload
+      - "3001:3000"
     volumes:
-      - .:/srv/jekyll
+      - .:/app
+      - /app/node_modules
     environment:
-      - JEKYLL_ENV=development
+      - NODE_ENV=development

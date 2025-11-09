@@ -2,72 +2,76 @@
 
 ## Executive Summary
 
-Git-native automated publishing platform using Jekyll static site generation with multi-platform API syndication. Architecture optimizes for reliability over features - native GitHub Pages deployment minimizes complexity, Docker Compose ensures local/production consistency, and modular platform adapters enable graceful degradation.
+Git-native automated publishing platform using Docusaurus static site generation with multi-platform API syndication. Architecture optimizes for modern developer experience and maintainability - React-based static generation with GitHub Pages deployment, Node.js ecosystem for consistency, and modular platform adapters enable graceful degradation.
 
 **Key Architectural Principles:**
-1. **Boring technology for stability** - Jekyll 3.9.3 (GitHub Pages native), proven static generation
+1. **Modern technology for maintainability** - Docusaurus 3.x (React/Node.js), active development, excellent DX
 2. **Git as single source of truth** - No databases, no state outside Git
 3. **Fail gracefully** - Platform API failures don't block other platforms
-4. **Local = Production** - Docker Compose mirrors GitHub Pages environment
+4. **Local = Production** - Docker Compose with Node.js mirrors deployment environment
 
 ## Project Initialization
 
-**No starter template** - Simple Jekyll project structure:
+**Docusaurus starter template:**
 
 ```bash
 # Local development setup
-gem install bundler jekyll
-jekyll new personal-blog --skip-bundle
+npx create-docusaurus@latest personal-blog classic --typescript
 cd personal-blog
 ```
 
-**Gemfile for GitHub Pages compatibility:**
-```ruby
-source "https://rubygems.org"
-gem "github-pages", group: :jekyll_plugins
-gem "jekyll-feed"
-gem "jekyll-seo-tag"
+**package.json dependencies:**
+```json
+{
+  "dependencies": {
+    "@docusaurus/core": "^3.6.0",
+    "@docusaurus/preset-classic": "^3.6.0",
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0"
+  }
+}
 ```
 
 **Docker Compose for local development:**
 ```yaml
 # docker-compose.yml
-version: '3'
 services:
-  jekyll:
-    image: jekyll/jekyll:3.9
-    command: jekyll serve --drafts --livereload --host 0.0.0.0
+  docusaurus:
+    image: node:20-alpine
+    working_dir: /app
+    command: npm start -- --host 0.0.0.0 --port 3000
     ports:
-      - "4000:4000"
-      - "35729:35729"  # LiveReload
+      - "3000:3000"
     volumes:
-      - .:/srv/jekyll
+      - .:/app
+      - /app/node_modules
     environment:
-      - JEKYLL_ENV=development
+      - NODE_ENV=development
 ```
 
 This establishes the foundation with these decisions already made:
-- Jekyll 3.9.3 (GitHub Pages compatible version)
-- Minima default theme (included with Jekyll)
-- Docker-based local development
-- LiveReload for instant feedback
+- Docusaurus 3.x (latest stable version)
+- Classic preset with blog support
+- TypeScript for type safety
+- Docker-based local development with Node.js
+- Hot reload for instant feedback
 
 ## Decision Summary
 
 | Category | Decision | Version | Affects Epics | Rationale |
 | -------- | -------- | ------- | ------------- | --------- |
-| Static Site Generator | Jekyll (GitHub Pages native) | 3.9.3 | All content epics | Native GitHub Pages support, zero-config deployment, proven stability |
-| Theme | Minima (default) | Bundled with Jekyll | Content authoring | Default theme for MVP, defer customization until automation proven |
-| Local Development | Docker Compose | jekyll/jekyll:3.9 | Development workflow | Environment consistency, cross-platform support |
-| Deployment | GitHub Pages (native) | N/A | Publishing pipeline | Simplest deployment, automatic from gh-pages branch |
-| CI/CD | GitHub Actions | N/A | Publishing pipeline | Native GitHub integration, free for public repos |
+| Static Site Generator | Docusaurus | 3.6+ | All content epics | Modern React-based platform, excellent DX, active development, MDX support |
+| Theme | Classic Preset | Bundled with Docusaurus | Content authoring | Modern responsive design, blog-ready, customizable with React |
+| Local Development | Docker Compose | node:20-alpine | Development workflow | Environment consistency, cross-platform support, Node.js ecosystem |
+| Deployment | GitHub Pages | N/A | Publishing pipeline | Free hosting, automatic deployment via GitHub Actions |
+| CI/CD | GitHub Actions | N/A | Publishing pipeline | Native GitHub integration, free for public repos, build and deploy Docusaurus |
 | Dev.to Integration | REST API | Current | Syndication | Well-documented API, POST /api/articles endpoint, API key auth |
 | Medium Integration | REST API (deprecated) | Current | Syndication | **RISK**: Deprecated API, publish-once only, graceful degradation if breaks |
 | Hashnode Integration | GraphQL API | Current | Syndication | Modern GraphQL API, publishPost mutation, active maintenance |
-| Markdown Processing | Python script | Python 3.11+ | Platform adapters | Platform-specific markdown conversion, handle quirks per platform |
+| Markdown Processing | Node.js/TypeScript | Node 20+ | Platform adapters | Platform-specific markdown conversion, unified ecosystem with Docusaurus |
 | Secret Management | GitHub Secrets | N/A | All platform APIs | API keys stored as secrets, never in code |
-| Scripting Language | Python | 3.11+ | Automation scripts | Simple HTTP/GraphQL calls, markdown processing libraries |
-| Article Detection | Git diff | N/A | Change detection | Detect modified files in /posts directory, incremental publishing |
+| Scripting Language | Node.js/TypeScript | Node 20+ | Automation scripts | HTTP/GraphQL calls, unified tooling with Docusaurus, type safety |
+| Article Detection | Git diff | N/A | Change detection | Detect modified files in blog directory, incremental publishing |
 | Error Handling | Continue on failure | N/A | All platform publishing | If one platform fails, others continue (graceful degradation) |
 
 ## Project Structure
@@ -76,25 +80,29 @@ This establishes the foundation with these decisions already made:
 personal-blog/
 ├── .github/
 │   └── workflows/
-│       └── publish.yml                 # GitHub Actions publishing workflow
-├── _posts/                              # Published articles (trigger syndication)
+│       └── publish.yml                  # GitHub Actions: build + deploy + syndicate
+├── blog/                                # Published articles (trigger syndication)
 │   └── 2025-01-15-example-article.md
-├── _drafts/                             # Unpublished drafts (no syndication)
-│   └── work-in-progress.md
-├── _site/                               # Jekyll build output (gitignored)
-├── assets/
-│   └── images/                          # Article images
+├── docs/                                # Documentation pages (optional)
+├── src/
+│   ├── components/                      # React components
+│   ├── css/                             # Custom styles
+│   └── pages/                           # Custom pages
+├── static/
+│   └── img/                             # Static assets and images
+├── build/                               # Docusaurus build output (gitignored)
+├── node_modules/                        # Node dependencies (gitignored)
 ├── scripts/
-│   ├── publish_devto.py                # Dev.to API adapter
-│   ├── publish_medium.py               # Medium API adapter
-│   ├── publish_hashnode.py             # Hashnode API adapter
-│   ├── detect_changes.py               # Git diff analyzer
-│   └── markdown_converter.py           # Platform-specific markdown conversion
+│   ├── publish-devto.ts                 # Dev.to API adapter
+│   ├── publish-medium.ts                # Medium API adapter
+│   ├── publish-hashnode.ts              # Hashnode API adapter
+│   ├── detect-changes.ts                # Git diff analyzer
+│   └── markdown-converter.ts            # Platform-specific markdown conversion
 ├── .gitignore
-├── _config.yml                          # Jekyll configuration
+├── docusaurus.config.ts                 # Docusaurus configuration
 ├── docker-compose.yml                   # Local development environment
-├── Gemfile                              # Ruby dependencies
-├── Gemfile.lock
+├── package.json                         # Node dependencies
+├── tsconfig.json                        # TypeScript configuration
 └── README.md
 ```
 
@@ -103,54 +111,54 @@ personal-blog/
 *Will be populated after epics are defined*
 
 **Anticipated Epic Structure:**
-- **Epic 1: Jekyll Setup & Local Dev** → Docker Compose, Jekyll config, Minima theme
-- **Epic 2: GitHub Pages Deployment** → GitHub Actions, static site build
-- **Epic 3: Dev.to Integration** → Python script, REST API, change detection
-- **Epic 4: Medium Integration** → Python script, REST API (deprecated), graceful degradation
-- **Epic 5: Hashnode Integration** → Python script, GraphQL API
-- **Epic 6: End-to-End Testing** → 10-article validation, reliability testing
+- **Epic 1: Docusaurus Setup & Local Dev** → Docker Compose, Docusaurus config, Classic theme, TypeScript
+- **Epic 2: GitHub Pages Deployment** → GitHub Actions, static site build with Docusaurus
+- **Epic 3: Multi-Platform Syndication** → Node.js/TypeScript scripts, Dev.to/Medium/Hashnode APIs, change detection
+- **Epic 4: Content Creation** → Write 10 technical articles with working code examples
 
 ## Technology Stack Details
 
 ### Core Technologies
 
 **Static Site Generation:**
-- **Jekyll 3.9.3** - GitHub Pages compatible version
-- **Minima theme** - Default Jekyll theme, no customization for MVP
-- **Plugins**: jekyll-feed (RSS), jekyll-seo-tag (SEO metadata)
+- **Docusaurus 3.6+** - Modern React-based static site generator
+- **Classic Preset** - Blog-ready theme with responsive design
+- **MDX Support** - Write JSX in markdown, embed React components
+- **TypeScript** - Type safety for configuration and customization
 
 **Local Development:**
-- **Docker** - jekyll/jekyll:3.9 image
+- **Docker** - node:20-alpine image
 - **Docker Compose** - Development environment orchestration
-- **LiveReload** - Instant feedback on file changes
+- **Hot Reload** - Instant feedback on file changes via Webpack
 
 **Deployment:**
-- **GitHub Pages** - Native Jekyll deployment from gh-pages branch
-- **GitHub Actions** - CI/CD automation, secret management
+- **GitHub Pages** - Free static hosting
+- **GitHub Actions** - Build Docusaurus, deploy to gh-pages branch
 
 **Scripting & Automation:**
-- **Python 3.11+** - Platform adapter scripts
-- **requests** library - HTTP API calls (Dev.to, Medium)
-- **gql** library - GraphQL API calls (Hashnode)
-- **frontmatter** library - YAML front matter parsing
-- **markdown** library - Markdown processing/conversion
+- **Node.js 20+** - Platform adapter scripts
+- **TypeScript** - Type-safe automation scripts
+- **axios** library - HTTP API calls (Dev.to, Medium)
+- **graphql-request** library - GraphQL API calls (Hashnode)
+- **gray-matter** library - Front matter parsing
+- **remark** libraries - Markdown processing/conversion
 
 ### Integration Points
 
-**1. GitHub Actions → Jekyll Build**
+**1. GitHub Actions → Docusaurus Build**
 - Trigger: Push/merge to `main` branch
-- Action: Build Jekyll static site
-- Output: Deploy to GitHub Pages
+- Action: `npm run build` - Build Docusaurus static site
+- Output: Deploy to GitHub Pages from `/build` directory
 
 **2. GitHub Actions → Change Detection**
-- Script: `scripts/detect_changes.py`
+- Script: `scripts/detect-changes.ts`
 - Input: Git diff between HEAD and HEAD~1
-- Output: List of changed/new files in `_posts/`
+- Output: List of changed/new files in `blog/` directory
 
 **3. GitHub Actions → Platform Adapters**
-- **Dev.to**: `scripts/publish_devto.py` → POST https://dev.to/api/articles
-- **Medium**: `scripts/publish_medium.py` → POST https://api.medium.com/v1/users/{userId}/posts
-- **Hashnode**: `scripts/publish_hashnode.py` → POST https://gql.hashnode.com (GraphQL)
+- **Dev.to**: `scripts/publish-devto.ts` → POST https://dev.to/api/articles
+- **Medium**: `scripts/publish-medium.ts` → POST https://api.medium.com/v1/users/{userId}/posts
+- **Hashnode**: `scripts/publish-hashnode.ts` → POST https://gql.hashnode.com (GraphQL)
 
 **4. Article Front Matter → Platform APIs**
 ```yaml
@@ -645,25 +653,33 @@ python scripts/publish_devto.py _posts/2025-01-15-my-new-article.md
 
 ## Architecture Decision Records (ADRs)
 
-### ADR-001: Use Jekyll 3.9.3 (GitHub Pages Native)
+### ADR-001: Use Docusaurus 3.x (Modern React-based SSG)
 
-**Status:** Accepted
+**Status:** Accepted (Revised 2025-11-09)
 
-**Context:** Need static site generator with minimal configuration and reliable deployment.
+**Context:** Need static site generator with modern developer experience, excellent documentation support, and reliable deployment.
 
-**Decision:** Use Jekyll 3.9.3 via native GitHub Pages deployment instead of Jekyll 4.x with custom GitHub Actions.
+**Decision:** Use Docusaurus 3.x with GitHub Actions deployment instead of Jekyll 3.9.3 native GitHub Pages.
 
 **Rationale:**
-- Zero-config deployment (just push to main)
-- Proven stability (GitHub Pages standard)
-- Fewer moving parts = less to break
-- Can upgrade to Jekyll 4.x + custom Actions later if needed
+- **Modern DX** - React/Node.js ecosystem, active development, excellent community
+- **MDX Support** - Embed React components in markdown for interactive examples
+- **TypeScript** - Type safety for configuration and customization
+- **Better for technical content** - Built for documentation, code examples, versioning
+- **Unified tooling** - Node.js for both site generation and syndication scripts
+- **Future-proof** - Active Meta project with regular updates
+
+**Trade-offs:**
+- Requires GitHub Actions build step (not native GitHub Pages like Jekyll)
+- Slightly more complex than Jekyll (React/Node.js vs Ruby)
+- Larger build artifacts (~2-3MB vs ~500KB)
 
 **Consequences:**
-- Limited to Jekyll 3.9.x features
-- Limited to GitHub-approved plugins
-- Simpler architecture
-- Faster to "automation proven" milestone
+- Modern, maintainable codebase with excellent developer experience
+- Can use React components for interactive demos and examples
+- TypeScript provides safety for config and scripts
+- GitHub Actions required for deployment (1-2 minute build time)
+- Better long-term maintainability and community support
 
 ---
 
@@ -689,24 +705,26 @@ python scripts/publish_devto.py _posts/2025-01-15-my-new-article.md
 
 ---
 
-### ADR-003: Python for Platform Adapters
+### ADR-003: Node.js/TypeScript for Platform Adapters
 
-**Status:** Accepted
+**Status:** Accepted (Revised 2025-11-09)
 
 **Context:** Need scripting language for API integration and markdown processing.
 
-**Decision:** Use Python 3.11+ for all platform adapter scripts.
+**Decision:** Use Node.js/TypeScript for all platform adapter scripts (unified with Docusaurus).
 
 **Rationale:**
-- Simple HTTP/GraphQL libraries (`requests`, `gql`)
-- Excellent markdown processing (`frontmatter`, `markdown`)
-- Easy to run in GitHub Actions
-- Widely known language (maintainability)
+- **Unified ecosystem** - Same runtime as Docusaurus (Node.js 20+)
+- **Type safety** - TypeScript prevents runtime errors in automation
+- **Excellent libraries** - `axios` for HTTP, `graphql-request` for GraphQL
+- **Markdown processing** - `gray-matter`, `remark` ecosystem
+- **Single toolchain** - npm scripts for everything
 
 **Consequences:**
-- Python runtime required in GitHub Actions (minimal overhead)
-- Consistent scripting across all platforms
-- Easy to test locally
+- Node.js runtime already required for Docusaurus (no additional dependency)
+- TypeScript compilation adds build step but provides safety
+- Consistent tooling and dependencies across entire project
+- Better integration with Docusaurus plugin ecosystem
 
 ---
 

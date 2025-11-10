@@ -45,7 +45,7 @@ development_status:
   epic-1-retrospective: optional
 
   epic-2: backlog
-  2-1-create-github-actions-workflow-for-docusaurus-build: backlog
+  2-1-create-github-actions-workflow-for-docusaurus-build: done
   2-2-configure-github-pages-deployment-for-docusaurus: backlog
   2-3-validate-canonical-urls-and-seo: backlog
   2-4-implement-build-failure-notifications: backlog

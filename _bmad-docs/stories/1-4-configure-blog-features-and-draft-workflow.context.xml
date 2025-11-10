@@ -1,0 +1,253 @@
+<story-context id="bmad/bmm/workflows/4-implementation/story-context/template" v="1.0">
+  <metadata>
+    <epicId>1</epicId>
+    <storyId>4</storyId>
+    <title>Configure Blog Features and Draft Workflow</title>
+    <status>drafted</status>
+    <generatedAt>2025-11-09</generatedAt>
+    <generator>BMAD Story Context Workflow</generator>
+    <sourceStoryPath>_bmad-docs/stories/1-4-configure-blog-features-and-draft-workflow.md</sourceStoryPath>
+  </metadata>
+
+  <story>
+    <asA>developer</asA>
+    <iWant>to configure blog features (reading time, RSS feed, pagination) and draft workflow</iWant>
+    <soThat>I can manage unpublished content and provide reader-friendly blog features</soThat>
+    <tasks>
+      - Task 1: Configure Blog Plugin Options (AC: #1, #3)
+        - Update docusaurus.config.ts blog preset configuration
+        - Enable showReadingTime: true
+        - Configure feedOptions for RSS and Atom feeds
+        - Set onInlineTags: 'warn' and onUntruncatedBlogPosts: 'warn'
+        - Configure pagination (postsPerPage)
+        - Verify blog sidebar configuration (recent posts)
+
+      - Task 2: Test Draft Workflow (AC: #2)
+        - Create a test draft post with draft: true in front matter
+        - Verify draft visible in development mode (npm start)
+        - Run production build (npm run build)
+        - Confirm draft excluded from production build output
+        - Test removing draft: true flag makes post published
+        - Delete test draft after validation
+
+      - Task 3: Validate RSS and Atom Feeds (AC: #1)
+        - Start dev server or build production site
+        - Access /blog/rss.xml and verify feed content
+        - Access /blog/atom.xml and verify feed content
+        - Confirm feed includes published posts (not drafts)
+        - Validate feed XML structure (use online validator if needed)
+
+      - Task 4: Verify Reading Time and Pagination (AC: #1)
+        - Check existing blog posts display reading time estimate
+        - Verify reading time calculation is reasonable (words per minute)
+        - Confirm pagination works if more posts than postsPerPage limit
+        - Test blog sidebar shows recent posts (if configured)
+
+      - Task 5: Document Draft Workflow in README (AC: #4)
+        - Add "Writing Blog Posts" section to README.md
+        - Document how to create drafts with draft: true flag
+        - Explain draft visibility (dev vs production)
+        - Document how to publish (remove draft flag or set to false)
+        - List available blog features (RSS, reading time, pagination)
+        - Include example front matter with draft flag
+    </tasks>
+  </story>
+
+  <acceptanceCriteria>
+    AC#1: Blog Features Enabled - The following blog features are configured in docusaurus.config.ts:
+      - Reading time estimation displayed on posts
+      - RSS feed generated at /blog/rss.xml
+      - Atom feed generated at /blog/atom.xml
+      - Pagination configured (posts per page limit)
+      - Blog sidebar shows recent posts
+
+    AC#2: Draft Workflow Configured - Draft functionality works correctly:
+      - Posts with draft: true in front matter are hidden in production builds
+      - Drafts are visible in development mode (npm start)
+      - Production build (npm run build) excludes draft posts
+      - Clear distinction between draft and published content
+
+    AC#3: Blog Plugin Options Optimized - The blog preset configuration includes:
+      - showReadingTime: true - Display reading time on posts
+      - feedOptions configured for RSS and Atom feeds
+      - onInlineTags: 'warn' - Warn about inline tags for content quality
+      - onUntruncatedBlogPosts: 'warn' - Remind to add excerpts
+      - Proper blog path and permalink configuration
+
+    AC#4: Documentation Complete - README.md includes:
+      - How to create a new draft (using draft: true flag)
+      - How to publish a draft (remove or set draft: false)
+      - When posts become published and trigger syndication
+      - Blog features overview (RSS, reading time, pagination)
+  </acceptanceCriteria>
+
+  <artifacts>
+    <docs>
+      <doc>
+        <path>_bmad-docs/PRD.md</path>
+        <title>Product Requirements Document</title>
+        <section>FR-1.2: Draft Management</section>
+        <snippet>Articles placed in /drafts directory are not published. Drafts visible in local preview via Docker Compose. Moving article from /drafts to /posts or /articles makes it publishable.</snippet>
+      </doc>
+      <doc>
+        <path>_bmad-docs/PRD.md</path>
+        <title>Product Requirements Document</title>
+        <section>FR-1.3: Local Preview</section>
+        <snippet>docker-compose up starts local Jekyll/Hugo instance. Live reload on file changes (hot reload). Drafts and published articles both visible locally.</snippet>
+      </doc>
+      <doc>
+        <path>_bmad-docs/architecture.md</path>
+        <title>Architecture Document</title>
+        <section>ADR-001: Use Docusaurus 3.x</section>
+        <snippet>Use Docusaurus 3.x with GitHub Actions deployment. Modern DX with React/Node.js ecosystem, MDX Support for embed React components, TypeScript for type safety.</snippet>
+      </doc>
+      <doc>
+        <path>_bmad-docs/architecture.md</path>
+        <title>Architecture Document</title>
+        <section>Project Structure</section>
+        <snippet>Blog posts live in blog/ directory. Supports both .md (markdown) and .mdx (markdown + JSX) formats. Front matter parsed using gray-matter library.</snippet>
+      </doc>
+      <doc>
+        <path>_bmad-docs/epics.md</path>
+        <title>Epic Breakdown</title>
+        <section>Story 1.4: Configure Blog Features and Draft Workflow</section>
+        <snippet>Configure blog plugin in docusaurus.config.ts for reading time, RSS/Atom feeds, pagination. Draft workflow with draft: true flag. Documentation in README.md.</snippet>
+      </doc>
+    </docs>
+    <code>
+      <file>
+        <path>docusaurus.config.ts</path>
+        <kind>config</kind>
+        <symbol>blog preset configuration</symbol>
+        <lines>49-63</lines>
+        <reason>Main configuration file for blog plugin - already has showReadingTime, feedOptions, onInlineTags, onUntruncatedBlogPosts configured. This story validates and potentially enhances these settings.</reason>
+      </file>
+      <file>
+        <path>blog/authors.yml</path>
+        <kind>config</kind>
+        <symbol>author metadata</symbol>
+        <lines>all</lines>
+        <reason>Author configuration used in blog posts - configured in Story 1.2 with james author profile.</reason>
+      </file>
+      <file>
+        <path>blog/2024-01-15-sample-article.mdx</path>
+        <kind>blog-post</kind>
+        <symbol>sample blog post</symbol>
+        <lines>all</lines>
+        <reason>Example blog post created in Story 1.3 demonstrating MDX features and front matter - can be used as reference for testing draft workflow.</reason>
+      </file>
+      <file>
+        <path>README.md</path>
+        <kind>documentation</kind>
+        <symbol>project README</symbol>
+        <lines>all</lines>
+        <reason>Project documentation that needs to be updated with draft workflow instructions per AC#4.</reason>
+      </file>
+    </code>
+    <dependencies>
+      <node>
+        <package name="@docusaurus/core" version="3.9.2" />
+        <package name="@docusaurus/preset-classic" version="3.9.2" />
+        <package name="@mdx-js/react" version="^3.0.0" />
+        <package name="react" version="^19.0.0" />
+        <package name="react-dom" version="^19.0.0" />
+        <package name="prism-react-renderer" version="^2.3.0" />
+      </node>
+    </dependencies>
+  </artifacts>
+
+  <constraints>
+    - Use Docusaurus 3.9.2 blog plugin configuration patterns (not Jekyll/Hugo)
+    - Draft posts use front matter flag (draft: true) not separate /drafts directory
+    - Reading time already enabled (showReadingTime: true in line 50) - verify it works
+    - RSS/Atom feeds already configured (feedOptions in lines 51-54) - verify generation
+    - Blog plugin options already include onInlineTags and onUntruncatedBlogPosts warnings (lines 60-62)
+    - Maintain existing TypeScript configuration and type safety
+    - Use npm scripts for development (npm start, npm run build)
+    - Blog posts live in blog/ directory with YYYY-MM-DD-title-slug format
+    - Preserve existing site branding and theme from Story 1.2
+    - Follow Docusaurus best practices for blog configuration
+  </constraints>
+
+  <interfaces>
+    <config>
+      <name>Docusaurus Blog Plugin Configuration</name>
+      <kind>TypeScript Config</kind>
+      <signature>
+        blog: {
+          showReadingTime: boolean,
+          feedOptions: {
+            type: ['rss', 'atom'],
+            xslt: boolean,
+          },
+          onInlineTags: 'ignore' | 'warn' | 'throw',
+          onInlineAuthors: 'ignore' | 'warn' | 'throw',
+          onUntruncatedBlogPosts: 'ignore' | 'warn' | 'throw',
+          postsPerPage?: number,
+          blogSidebarCount?: number | 'ALL',
+          blogSidebarTitle?: string,
+        }
+      </signature>
+      <path>docusaurus.config.ts</path>
+    </config>
+    <frontMatter>
+      <name>Blog Post Front Matter with Draft Flag</name>
+      <kind>YAML Front Matter</kind>
+      <signature>
+        ---
+        title: string
+        authors: array&lt;string&gt;
+        tags: array&lt;string&gt;
+        description: string
+        draft: boolean  # true = hidden in production, false/omitted = published
+        ---
+      </signature>
+      <path>blog/*.md or blog/*.mdx</path>
+    </frontMatter>
+  </interfaces>
+
+  <tests>
+    <standards>
+      This is a configuration story focused on blog plugin settings and documentation. Testing approach is manual validation:
+      - Development mode testing (npm start) to verify drafts visible
+      - Production build testing (npm run build) to verify drafts excluded
+      - RSS/Atom feed validation by accessing /blog/rss.xml and /blog/atom.xml
+      - Reading time display validation on existing blog posts
+      - Documentation review to ensure README completeness
+
+      No automated tests required for this configuration-focused story. Future stories may add E2E tests for blog functionality using Docusaurus test utilities if needed.
+    </standards>
+    <locations>
+      N/A - This story is configuration and documentation focused, no test files created
+    </locations>
+    <ideas>
+      Manual Test Plan:
+
+      AC#1 (Blog Features):
+      - Start dev server and verify reading time appears on blog/2024-01-15-sample-article
+      - Access localhost:3000/personal-blog/blog/rss.xml and verify XML feed structure
+      - Access localhost:3000/personal-blog/blog/atom.xml and verify XML feed structure
+      - Check blog sidebar shows recent posts (if enough posts exist)
+
+      AC#2 (Draft Workflow):
+      - Create test draft blog/2025-01-09-draft-test.md with draft: true flag
+      - npm start - verify draft visible at localhost:3000/personal-blog/blog
+      - npm run build - verify draft excluded from build/ output
+      - Remove draft flag - verify post becomes published
+      - Delete test file after validation
+
+      AC#3 (Blog Plugin Options):
+      - Review docusaurus.config.ts lines 49-63
+      - Verify showReadingTime: true (line 50) - already configured
+      - Verify feedOptions type: ['rss', 'atom'] (line 52) - already configured
+      - Verify onInlineTags: 'warn' (line 60) - already configured
+      - Verify onUntruncatedBlogPosts: 'warn' (line 62) - already configured
+
+      AC#4 (Documentation):
+      - Add "Writing Blog Posts" section to README.md
+      - Include draft workflow instructions with examples
+      - List blog features (RSS, reading time, pagination)
+      - Provide example front matter with draft flag
+    </ideas>
+  </tests>
+</story-context>

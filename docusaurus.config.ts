@@ -5,8 +5,8 @@ import type * as Preset from '@docusaurus/preset-classic';
 // This runs in Node.js - Don't use client-side code here (browser APIs, JSX...)
 
 const config: Config = {
-  title: 'Personal Technical Blog',
-  tagline: 'Technical articles on cloud architecture, identity, GIS, and multi-language development',
+  title: 'James Crowley - Technical Blog',
+  tagline: 'Cloud Architecture, Identity & Auth, GIS, and Multi-Language Development',
   favicon: 'img/favicon.ico',
 
   // Future flags, see https://docusaurus.io/docs/api/docusaurus-config#future
@@ -52,10 +52,15 @@ const config: Config = {
             type: ['rss', 'atom'],
             xslt: true,
           },
+          // Pagination: Show 10 posts per page
+          postsPerPage: 10,
+          // Blog sidebar configuration
+          blogSidebarTitle: 'Recent Posts',
+          blogSidebarCount: 5,
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
           editUrl:
-            'https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/',
+            'https://github.com/jamescrowley321/personal-blog/tree/main/',
           // Useful options to enforce blogging best practices
           onInlineTags: 'warn',
           onInlineAuthors: 'warn',
@@ -69,27 +74,27 @@ const config: Config = {
   ],
 
   themeConfig: {
-    // Replace with your project's social card
-    image: 'img/docusaurus-social-card.jpg',
+    // Social card for sharing (og:image, twitter:card)
+    image: 'img/docusaurus-social-card.jpg', // TODO: Replace with custom social card image
     colorMode: {
       respectPrefersColorScheme: true,
     },
     navbar: {
-      title: 'My Site',
+      title: 'James Crowley',
       logo: {
-        alt: 'My Site Logo',
+        alt: 'James Crowley Logo',
         src: 'img/logo.svg',
       },
       items: [
+        {to: '/blog', label: 'Blog', position: 'left'},
         {
           type: 'docSidebar',
           sidebarId: 'tutorialSidebar',
           position: 'left',
-          label: 'Tutorial',
+          label: 'Docs',
         },
-        {to: '/blog', label: 'Blog', position: 'left'},
         {
-          href: 'https://github.com/facebook/docusaurus',
+          href: 'https://github.com/jamescrowley321/personal-blog',
           label: 'GitHub',
           position: 'right',
         },
@@ -99,46 +104,46 @@ const config: Config = {
       style: 'dark',
       links: [
         {
-          title: 'Docs',
-          items: [
-            {
-              label: 'Tutorial',
-              to: '/docs/intro',
-            },
-          ],
-        },
-        {
-          title: 'Community',
-          items: [
-            {
-              label: 'Stack Overflow',
-              href: 'https://stackoverflow.com/questions/tagged/docusaurus',
-            },
-            {
-              label: 'Discord',
-              href: 'https://discordapp.com/invite/docusaurus',
-            },
-            {
-              label: 'X',
-              href: 'https://x.com/docusaurus',
-            },
-          ],
-        },
-        {
-          title: 'More',
+          title: 'Content',
           items: [
             {
               label: 'Blog',
               to: '/blog',
             },
             {
+              label: 'Documentation',
+              to: '/docs/intro',
+            },
+          ],
+        },
+        {
+          title: 'Connect',
+          items: [
+            {
               label: 'GitHub',
-              href: 'https://github.com/facebook/docusaurus',
+              href: 'https://github.com/jamescrowley321',
+            },
+            {
+              label: 'LinkedIn',
+              href: 'https://www.linkedin.com/in/james-crowley-4ab550b4/',
+            },
+          ],
+        },
+        {
+          title: 'Projects',
+          items: [
+            {
+              label: 'Personal Blog Repo',
+              href: 'https://github.com/jamescrowley321/personal-blog',
+            },
+            {
+              label: 'Open Source',
+              href: 'https://github.com/jamescrowley321?tab=repositories',
             },
           ],
         },
       ],
-      copyright: `Copyright © ${new Date().getFullYear()} My Project, Inc. Built with Docusaurus.`,
+      copyright: `Copyright © ${new Date().getFullYear()} James Crowley. Built with Docusaurus.`,
     },
     prism: {
       theme: prismThemes.github,

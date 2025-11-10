@@ -1,0 +1,227 @@
+---
+slug: building-modern-blog-docusaurus
+title: Building a Modern Technical Blog with Docusaurus
+authors: [james]
+tags: [docusaurus, automation, blogging, mdx]
+description: A comprehensive guide to setting up a technical blog with Docusaurus, demonstrating MDX features, syntax highlighting, and best practices.
+---
+
+Welcome to this sample article showcasing the power of Docusaurus for technical blogging! This post demonstrates the key features you'll use when creating content, including MDX support, syntax highlighting, and multimedia integration.
+
+{/* truncate */}
+
+## Why Docusaurus for Technical Blogging?
+
+Docusaurus is a modern static site generator built by Meta (Facebook) that's specifically designed for documentation and technical content. Here's why it's perfect for developer blogs:
+
+- **React-powered**: Write interactive components directly in your markdown
+- **MDX support**: Combine markdown with JSX for enhanced functionality
+- **Built-in features**: Syntax highlighting, dark mode, search, and more
+- **Performance**: Static site generation for blazing-fast load times
+- **SEO-friendly**: Automatic sitemap, meta tags, and social card generation
+
+### Key Features Demonstrated in This Post
+
+This article serves as a template showing you how to:
+
+1. Structure blog posts with proper front matter
+2. Use code blocks with syntax highlighting
+3. Embed images from static assets
+4. Organize content with headers and lists
+5. Leverage MDX for interactive elements (optional)
+
+## Front Matter Configuration
+
+Every blog post starts with YAML front matter that defines metadata:
+
+```yaml
+---
+title: "Your Article Title Here"
+authors: [james]  # References blog/authors.yml
+tags: [docusaurus, automation, blogging]
+description: "SEO-friendly description under 160 characters"
+---
+```
+
+The front matter controls:
+- **SEO**: Title and description appear in search results
+- **Organization**: Tags categorize your content
+- **Attribution**: Author profile with photo and social links
+- **URL**: Generated from filename date and slug
+
+## Code Examples with Syntax Highlighting
+
+One of Docusaurus's best features is automatic syntax highlighting powered by Prism.js. Here's a Python example:
+
+```python
+def calculate_reading_time(word_count: int, wpm: int = 200) -> int:
+    """
+    Calculate estimated reading time for an article.
+
+    Args:
+        word_count: Total words in the article
+        wpm: Words per minute reading speed (default: 200)
+
+    Returns:
+        Estimated reading time in minutes
+    """
+    reading_time = word_count / wpm
+    return max(1, round(reading_time))
+
+# Example usage
+article_words = 1200
+time_estimate = calculate_reading_time(article_words)
+print(f"Estimated reading time: {time_estimate} minutes")
+```
+
+And here's a TypeScript example showing type-safe blog configuration:
+
+```typescript
+interface BlogPost {
+  title: string;
+  authors: string[];
+  tags: string[];
+  description: string;
+  publishDate: Date;
+  featured?: boolean;
+}
+
+const createBlogPost = (config: BlogPost): string => {
+  const frontMatter = `---
+title: "${config.title}"
+authors: [${config.authors.join(', ')}]
+tags: [${config.tags.join(', ')}]
+description: "${config.description}"
+${config.featured ? 'featured: true' : ''}
+---`;
+
+  return frontMatter;
+};
+
+// Usage example
+const myPost: BlogPost = {
+  title: "Getting Started with TypeScript",
+  authors: ["james"],
+  tags: ["typescript", "javascript", "programming"],
+  description: "Learn TypeScript fundamentals in this beginner-friendly guide",
+  publishDate: new Date("2025-01-09"),
+  featured: true
+};
+
+console.log(createBlogPost(myPost));
+```
+
+### Supported Languages
+
+Docusaurus supports syntax highlighting for 100+ languages including:
+
+- **Web**: JavaScript, TypeScript, HTML, CSS, JSX, TSX
+- **Backend**: Python, Java, Go, Rust, C#, PHP
+- **DevOps**: Bash, PowerShell, Dockerfile, YAML, JSON
+- **Data**: SQL, GraphQL, MongoDB
+- **Mobile**: Swift, Kotlin, Dart
+
+## Working with Images
+
+Images are stored in the `static/img/` directory and referenced using the `/img/` path:
+
+![Docusaurus Logo](/img/docusaurus.png "Docusaurus - Easy to Maintain Open Source Documentation Websites")
+
+**Best practices for images:**
+- Use descriptive filenames (e.g., `architecture-diagram.png`, not `img1.png`)
+- Provide alt text for accessibility
+- Optimize file sizes for faster loading
+- Consider using WebP format for better compression
+
+## Organizing Content with Lists
+
+### Ordered Lists for Step-by-Step Guides
+
+1. **Initialize your Docusaurus project**
+   ```bash
+   npx create-docusaurus@latest my-blog classic --typescript
+   ```
+
+2. **Configure your site metadata** in `docusaurus.config.ts`
+   - Set title, tagline, and URL
+   - Configure navbar and footer
+   - Customize color scheme
+
+3. **Create your first blog post** following the naming convention
+   - Format: `YYYY-MM-DD-post-slug.mdx`
+   - Add front matter with metadata
+   - Write your content in markdown
+
+4. **Start the development server**
+   ```bash
+   npm start
+   ```
+
+5. **Build for production**
+   ```bash
+   npm run build
+   ```
+
+### Unordered Lists for Feature Highlights
+
+Here are some powerful Docusaurus blog features:
+
+- **Automatic reading time estimation** based on word count
+- **RSS and Atom feeds** for subscribers
+- **Tag-based categorization** for content organization
+- **Author profiles** with photos and social links
+- **Draft posts** that don't appear in production
+- **Pagination** for blog index pages
+- **Social card generation** for rich link previews
+
+## MDX Power: Interactive Components
+
+While this sample post focuses on standard markdown features, MDX allows you to import and use React components directly in your posts. For example:
+
+```mdx
+import MyComponent from '@site/src/components/MyComponent';
+
+<MyComponent name="Demo" count={5} />
+```
+
+This enables:
+- **Interactive demos**: Embed runnable code examples
+- **Data visualizations**: Charts, graphs, and diagrams
+- **Custom layouts**: Callouts, tabs, and special formatting
+- **Embeds**: YouTube videos, CodePen demos, tweets
+
+## Article Template Checklist
+
+Use this checklist when creating new blog posts:
+
+- [ ] Filename follows `YYYY-MM-DD-title-slug.mdx` format
+- [ ] Front matter includes: title, authors, tags, description
+- [ ] Description is under 160 characters for SEO
+- [ ] Code blocks specify language for syntax highlighting
+- [ ] Images use `/img/` path and include alt text
+- [ ] Content organized with clear headers (H2, H3)
+- [ ] Author key matches entry in `blog/authors.yml`
+- [ ] Tags are lowercase and hyphenated
+- [ ] Post preview defined with `{/* truncate */}` comment
+
+## Conclusion
+
+You now have a complete template for creating technical blog posts with Docusaurus! This sample demonstrates:
+
+✅ Proper front matter configuration
+✅ Code syntax highlighting with Python and TypeScript
+✅ Image embedding from static assets
+✅ Content organization with headers and lists
+✅ MDX capabilities for future enhancement
+
+**Next steps:**
+1. Review this post in your browser at `localhost:3000/personal-blog/blog`
+2. Verify all features render correctly
+3. Use this as a template for your own articles
+4. Explore MDX for interactive components as needed
+
+Happy blogging! 🚀
+
+---
+
+**Pro tip:** Keep this sample post as a reference template. When creating new articles, copy the structure and front matter, then customize the content.

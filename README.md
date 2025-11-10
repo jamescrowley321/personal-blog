@@ -94,6 +94,58 @@ This platform enables:
    git push origin main
    ```
 
+### Draft Workflow
+
+Docusaurus supports draft posts that are excluded from production builds:
+
+1. **Create a draft post:**
+   ```markdown
+   ---
+   title: "Work in Progress"
+   authors: [james]
+   tags: [draft]
+   draft: true  # Hide from production build
+   ---
+
+   Content still being written...
+   ```
+
+2. **Draft behavior:**
+   - **Development mode (`npm start` or `docker-compose up`)**: Drafts are hidden by default for a production-like experience
+   - **Production build (`npm run build`)**: Drafts are completely excluded from the build output
+   - **Publish a draft**: Remove the `draft: true` line or change it to `draft: false`
+
+3. **When drafts become published:**
+   - Removing `draft: true` flag makes the post immediately published
+   - Pushing to main triggers automatic deployment to GitHub Pages
+   - Post appears in RSS/Atom feeds and on the blog homepage
+
+### Blog Features
+
+This blog includes several reader-friendly features:
+
+**Reading Time Estimation:**
+- Automatically calculated based on word count (~200 words/minute)
+- Displayed below the post title on blog pages
+- Example: "5 min read"
+
+**RSS and Atom Feeds:**
+- RSS feed: https://jamescrowley321.github.io/personal-blog/blog/rss.xml
+- Atom feed: https://jamescrowley321.github.io/personal-blog/blog/atom.xml
+- Auto-generated on each build
+- Includes all published posts (drafts excluded)
+- Compatible with feed readers like Feedly, The Old Reader, etc.
+
+**Pagination:**
+- Blog homepage shows 10 posts per page
+- Older posts accessible via pagination controls
+- Improves page load times for readers
+
+**Recent Posts Sidebar:**
+- Shows 5 most recent posts grouped by year
+- Visible on all blog pages for easy navigation
+- Auto-updates when new posts are published
+
 ## Project Structure
 
 ```

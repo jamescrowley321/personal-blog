@@ -38,18 +38,18 @@ story_location: "{project-root}/docs/stories"
 development_status:
   epic-1: contexted
   1-1-initialize-project-with-starter-template-and-docker-compose: done
-  1-2-configure-jekyll-with-default-minima-theme: backlog
-  1-3-define-article-structure-and-front-matter-template: backlog
-  1-4-implement-draft-management-workflow: backlog
-  1-5-set-up-local-preview-with-live-reload: backlog
+  1-2-configure-docusaurus-theme-and-site-branding: done
+  1-3-create-blog-post-template-with-mdx-and-front-matter: done
+  1-4-configure-blog-features-and-draft-workflow: done
+  1-5-validate-local-development-environment-end-to-end: backlog
   epic-1-retrospective: optional
 
   epic-2: backlog
-  2-1-set-up-github-actions-workflow: backlog
-  2-2-implement-jekyll-build-automation-in-ci-cd: backlog
-  2-3-configure-github-pages-deployment: backlog
-  2-4-implement-git-diff-based-change-detection: backlog
-  2-5-configure-workflow-notifications-and-error-reporting: backlog
+  2-1-create-github-actions-workflow-for-docusaurus-build: backlog
+  2-2-configure-github-pages-deployment-for-docusaurus: backlog
+  2-3-validate-canonical-urls-and-seo: backlog
+  2-4-implement-build-failure-notifications: backlog
+  2-5-end-to-end-github-pages-publishing-test: backlog
   epic-2-retrospective: optional
 
   epic-3: backlog

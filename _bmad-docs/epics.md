@@ -13,13 +13,13 @@ This document provides the complete epic and story breakdown for personal-blog, 
 
 ### Epic Summary
 
-**Epic 1: Jekyll Foundation & Local Development**
-Establish the core Jekyll static site with Docker Compose for local development, enabling immediate article preview and iteration.
+**Epic 1: Docusaurus Foundation & Local Development**
+Establish the core Docusaurus static site with Docker Compose for local development, enabling immediate article preview and iteration.
 
 **Value:** Developer can write articles locally with live preview before any deployment complexity.
 
 **Epic 2: GitHub Pages Deployment Pipeline**
-Automate Jekyll build and deployment to GitHub Pages, establishing the canonical publishing destination.
+Automate Docusaurus build and deployment to GitHub Pages, establishing the canonical publishing destination.
 
 **Value:** Articles automatically published to primary platform (GitHub Pages) on merge to main.
 
@@ -41,17 +41,17 @@ Publish 10 real articles to validate automation reliability and sustainable week
 
 ---
 
-## Epic 1: Jekyll Foundation & Local Development
+## Epic 1: Docusaurus Foundation & Local Development
 
-**Goal:** Establish core Jekyll static site with Docker Compose, enabling local article writing with live preview and draft workflow support.
+**Goal:** Establish core Docusaurus static site with Docker Compose, enabling local article writing with live preview and draft workflow support.
 
-**Value:** Developer can write and preview articles locally before any deployment complexity. Validates Jekyll + Docker setup works correctly.
+**Value:** Developer can write and preview articles locally before any deployment complexity. Validates Docusaurus + Docker setup works correctly.
 
 **Success Metrics:**
-- Docker Compose starts Jekyll in <30 seconds
-- Live reload works (<5 second file change to browser refresh)
+- Docker Compose starts Docusaurus in <30 seconds
+- Hot reload works (<5 second file change to browser refresh)
 - Can preview drafts and published articles locally
-- Default Minima theme renders correctly
+- Docusaurus theme renders correctly with customizations
 
 ---
 
@@ -87,125 +87,130 @@ So that I have a foundation for the blog with proper configuration.
 
 ---
 
-### Story 1.2: Configure Docker Compose for Local Development
+### Story 1.2: Configure Docusaurus Theme and Site Branding
 
 As a developer,
-I want Docker Compose to run Jekyll locally with live reload,
-So that I can preview articles without installing Ruby/Jekyll natively.
+I want to customize the Docusaurus theme with proper branding and navigation,
+So that the blog reflects my professional identity and provides clear site structure.
 
 **Acceptance Criteria:**
 
-**Given** The Jekyll project structure exists
-**When** I run `docker-compose up`
-**Then** Jekyll server starts successfully
-- Binds to `localhost:4000`
-- LiveReload enabled on port `35729`
-- Mounts current directory as `/srv/jekyll`
-- Uses `jekyll/jekyll:3.9` image
+**Given** The Docusaurus project is initialized (Story 1.1)
+**When** I configure the site theme and branding
+**Then** The site configuration includes:
+- Custom site title and tagline reflecting professional identity
+- Updated navbar with relevant links and structure
+- Customized footer with contact/social links
+- Configured color scheme (primary and secondary colors)
 
-**And** Live reload works correctly
-- File changes in `_posts/` or `_drafts/` trigger rebuild
-- Browser auto-refreshes within 5 seconds
-- No manual restart required
+**And** Navigation is properly structured:
+- Blog link in navbar
+- Docs link (if using documentation section)
+- GitHub repository link
+- Clean, professional layout
 
-**And** Draft preview is enabled
-- Articles in `_drafts/` visible when browsing locally
-- Drafts not included in production builds
+**And** Branding elements are customized:
+- Site logo/favicon updated (if desired)
+- Author information configured
+- Social card metadata for sharing
+- Professional description and tagline
 
-**Prerequisites:** Story 1.1 (project structure must exist)
+**Prerequisites:** Story 1.1 (Docusaurus project initialized)
 
 **Technical Notes:**
-- Use docker-compose.yml from architecture.md
-- Command: `jekyll serve --drafts --livereload --host 0.0.0.0`
-- Environment: `JEKYLL_ENV=development`
+- Configure docusaurus.config.ts themeConfig section
+- Update navbar items, footer links, and color mode settings
+- Configure metadata for SEO (title, description, og:image)
+- Test responsive design on mobile and desktop
 
 ---
 
-### Story 1.3: Create Sample Article with Front Matter Template
+### Story 1.3: Create Blog Post Template with MDX and Front Matter
 
 As a developer,
-I want a sample article demonstrating proper front matter format,
-So that I have a template for future articles and can validate the setup works.
+I want to create a sample blog post demonstrating MDX features and front matter,
+So that I have a template for future articles with proper metadata and interactive components.
 
 **Acceptance Criteria:**
 
-**Given** Jekyll is running via Docker Compose
-**When** I create a sample article `_posts/2025-01-08-sample-article.md`
+**Given** Docusaurus is running locally
+**When** I create a sample blog post `blog/2025-01-09-sample-article.md`
 **Then** The article includes required front matter:
 ```yaml
 ---
 title: "Sample Technical Article"
-date: 2025-01-08
-tags: [jekyll, automation, blogging]
-description: "A sample article demonstrating the blog setup"
-canonical_url: "https://username.github.io/personal-blog/sample-article"
+authors: [james]
+tags: [docusaurus, automation, blogging]
+description: "A sample article demonstrating the blog setup with MDX"
 ---
 ```
 
-**And** The article renders correctly at `localhost:4000`
+**And** The article renders correctly at `localhost:3001/blog`
 - Title displays properly
-- Date formats correctly
-- Tags are visible
+- Author information shows correctly
+- Tags are visible and clickable
 - Syntax highlighting works for code blocks
-- Images (if included) load correctly
+- Reading time estimate appears
 
-**And** The article includes example content:
+**And** The article demonstrates MDX features:
 - Multiple markdown sections (headers, lists, code blocks)
-- Demonstrates syntax highlighting with Python/Bash examples
-- Tests image embedding from `assets/images/`
+- Syntax highlighting with Python/TypeScript examples
+- Optional: Import and use a React component (demonstrates MDX power)
+- Images load correctly from static assets
 
-**Prerequisites:** Story 1.2 (Docker Compose must be working)
+**Prerequisites:** Story 1.2 (theme and branding configured)
 
 **Technical Notes:**
-- Use filename format: `YYYY-MM-DD-title-slug.md`
-- Test with realistic technical content (code examples, diagrams)
-- Validate canonical_url format matches architecture
+- Use filename format: `YYYY-MM-DD-title-slug.md` or `.mdx` for React components
+- Configure blog/authors.yml for author metadata
+- Test with realistic technical content (code examples)
+- Validate URLs match docusaurus.config.ts baseUrl
 
 ---
 
-### Story 1.4: Implement Draft Workflow
+### Story 1.4: Configure Blog Features and Draft Workflow
 
 As a developer,
-I want to write articles in `_drafts/` that don't trigger publishing,
-So that I can work on content privately before making it live.
+I want to configure blog features (reading time, RSS feed, pagination) and draft workflow,
+So that I can manage unpublished content and provide reader-friendly blog features.
 
 **Acceptance Criteria:**
 
-**Given** Jekyll is running locally
-**When** I create an article in `_drafts/work-in-progress.md`
-**Then** The draft is visible at `localhost:4000` (with --drafts flag)
+**Given** Docusaurus blog is set up with sample post
+**When** I configure the blog plugin in docusaurus.config.ts
+**Then** Blog features are enabled:
+- Reading time estimation displayed on posts
+- RSS feed generated at `/blog/rss.xml`
+- Atom feed generated at `/blog/atom.xml`
+- Pagination configured (posts per page)
+- Blog sidebar shows recent posts
 
-**And** Moving the draft to `_posts/` makes it publishable:
-- Rename to include date: `2025-01-08-work-in-progress.md`
-- Article now considered "published" for build purposes
+**And** Draft workflow is configured and documented:
+- Posts with `draft: true` in front matter are hidden in production
+- Drafts visible in development mode (`npm start`)
+- README.md documents how to create drafts
+- README.md explains when posts become published (draft: false or remove flag)
 
-**And** Draft front matter doesn't require date:
-```yaml
----
-title: "Work in Progress"
-tags: [draft, wip]
-description: "Article being developed"
----
-```
+**And** Blog plugin options are optimized:
+- `showReadingTime: true`
+- `feedOptions` configured for RSS/Atom
+- `onInlineTags: 'warn'` for content quality
+- `onUntruncatedBlogPosts: 'warn'` for excerpt reminders
 
-**And** Documentation exists for the workflow:
-- README.md explains draft → publish process
-- Commands for creating drafts
-- When/how to move to `_posts/`
-
-**Prerequisites:** Story 1.3 (sample article template exists)
+**Prerequisites:** Story 1.3 (sample blog post exists)
 
 **Technical Notes:**
-- Jekyll's `--drafts` flag already handles visibility
-- Focus on documenting the workflow clearly
-- Ensure Git doesn't ignore `_drafts/` directory
+- Configure blog preset options in docusaurus.config.ts
+- Test draft visibility: dev shows drafts, prod build hides them
+- Validate RSS/Atom feeds are generated correctly
+- Document workflow clearly in README.md
 
 ---
 
-### Story 1.5: Validate Local Environment End-to-End
+### Story 1.5: Validate Local Development Environment End-to-End
 
 As a developer,
-I want to verify the complete local workflow functions correctly,
+I want to verify the complete Docusaurus local workflow functions correctly,
 So that I'm confident the foundation is solid before adding deployment.
 
 **Acceptance Criteria:**
@@ -215,19 +220,19 @@ So that I'm confident the foundation is solid before adding deployment.
 **Then** The following workflow succeeds:
 
 1. **Start environment:** `docker-compose up` completes in <30 seconds
-2. **Create draft:** Article in `_drafts/` visible locally
-3. **Live reload:** Editing draft triggers browser refresh <5 seconds
-4. **Publish draft:** Move to `_posts/` with date prefix
-5. **Verify rendering:** Published article displays correctly
+2. **Create draft:** Blog post with `draft: true` visible at localhost:3001 in dev mode
+3. **Hot reload:** Editing post triggers browser refresh <5 seconds
+4. **Publish draft:** Remove `draft: true` flag from front matter
+5. **Verify rendering:** Published article displays correctly with all features
 6. **Stop environment:** `docker-compose down` cleans up properly
 
-**And** No errors in Jekyll build logs
+**And** No errors in Docusaurus build logs
 **And** No broken links or missing images
-**And** Minima theme renders responsively (mobile and desktop)
+**And** Docusaurus theme renders responsively (mobile and desktop)
 
 **And** Documentation is complete:
 - README.md with setup instructions
-- Example article demonstrating front matter
+- Example blog post demonstrating MDX and front matter
 - Troubleshooting section for common issues
 
 **Prerequisites:** Stories 1.1-1.4 (entire Epic 1 foundation)
@@ -242,69 +247,70 @@ So that I'm confident the foundation is solid before adding deployment.
 
 ## Epic 2: GitHub Pages Deployment Pipeline
 
-**Goal:** Automate Jekyll build and deployment to GitHub Pages, establishing the canonical publishing destination with <5 minute commit-to-live time.
+**Goal:** Automate Docusaurus build and deployment to GitHub Pages, establishing the canonical publishing destination with <5 minute commit-to-live time.
 
 **Value:** Articles automatically published to primary platform (GitHub Pages) on merge to main. Proves automation works for at least one platform.
 
 **Success Metrics:**
 - Push to main → Live on GitHub Pages in <5 minutes
-- Build succeeds on first try (Jekyll 3.9.3 compatibility verified)
+- Build succeeds on first try (Docusaurus 3.9+ compatibility verified)
 - Canonical URLs work correctly
 - No manual deployment steps required
 
 ---
 
-### Story 2.1: Create GitHub Actions Workflow for Jekyll Build
+### Story 2.1: Create GitHub Actions Workflow for Docusaurus Build
 
 As a developer,
-I want GitHub Actions to automatically build Jekyll when I push to main,
+I want GitHub Actions to automatically build Docusaurus when I push to main,
 So that deployment is automated without manual intervention.
 
 **Acceptance Criteria:**
 
-**Given** The Jekyll project is in a GitHub repository
-**When** I create `.github/workflows/jekyll-deploy.yml`
+**Given** The Docusaurus project is in a GitHub repository
+**When** I create `.github/workflows/deploy.yml`
 **Then** The workflow includes:
 - Trigger on push to `main` branch
 - Checkout action to get repository code
-- Setup Ruby with version matching GitHub Pages (2.7.x)
-- Install dependencies (`bundle install`)
-- Build Jekyll site (`jekyll build`)
+- Setup Node.js with version 20.x
+- Install dependencies (`npm ci`)
+- Build Docusaurus site (`npm run build`)
 - Upload build artifacts for deployment
 
 **And** The workflow uses GitHub's official actions:
 - `actions/checkout@v4`
-- `ruby/setup-ruby@v1`
+- `actions/setup-node@v4`
 - `actions/upload-pages-artifact@v3`
 
 **And** Build configuration matches local environment:
-- Same Jekyll version (3.9.3)
-- Same gems (github-pages, jekyll-feed, jekyll-seo-tag)
-- Production environment (`JEKYLL_ENV=production`)
+- Same Node.js version (20.x)
+- Same dependencies from package.json
+- Production environment (NODE_ENV=production)
 
-**Prerequisites:** Epic 1 complete (Jekyll project must exist)
+**Prerequisites:** Epic 1 complete (Docusaurus project must exist)
 
 **Technical Notes:**
-- Follow GitHub Pages official deployment documentation
-- Use `github-pages` gem for version compatibility
-- Exclude `_drafts/` from production builds (no --drafts flag)
+- Follow Docusaurus GitHub Pages deployment documentation
+- Use `npm ci` for reproducible builds (not `npm install`)
+- Build output directory is `build/` (not `_site/`)
+- Drafts excluded automatically in production builds
 
 ---
 
-### Story 2.2: Configure GitHub Pages Deployment
+### Story 2.2: Configure GitHub Pages Deployment for Docusaurus
 
 As a developer,
-I want the built Jekyll site automatically deployed to GitHub Pages,
+I want the built Docusaurus site automatically deployed to GitHub Pages,
 So that articles are live at the canonical URL after build succeeds.
 
 **Acceptance Criteria:**
 
-**Given** GitHub Actions successfully builds Jekyll
+**Given** GitHub Actions successfully builds Docusaurus
 **When** The build completes
 **Then** The site deploys to GitHub Pages automatically
 - Uses `actions/deploy-pages@v4` action
 - Deploys from build artifacts (not gh-pages branch)
-- Site available at `https://username.github.io/personal-blog/`
+- Site available at `https://jamescrowley321.github.io/personal-blog/`
 
 **And** GitHub Pages settings are configured:
 - Source: GitHub Actions (not branch-based)
@@ -320,8 +326,9 @@ So that articles are live at the canonical URL after build succeeds.
 
 **Technical Notes:**
 - Use GitHub's newer Actions-based deployment (not gh-pages branch)
-- Simpler than traditional approach
+- Docusaurus baseUrl already configured as `/personal-blog/`
 - Automatic HTTPS certificate
+- Build artifacts from `build/` directory
 
 ---
 
@@ -363,22 +370,22 @@ So that SEO works properly and platforms know the authoritative source.
 ### Story 2.4: Implement Build Failure Notifications
 
 As a developer,
-I want to be notified immediately if Jekyll build fails,
+I want to be notified immediately if Docusaurus build fails,
 So that I can fix issues before they block publishing.
 
 **Acceptance Criteria:**
 
 **Given** GitHub Actions workflow is running
-**When** The Jekyll build fails (syntax error, missing dependency, etc.)
+**When** The Docusaurus build fails (syntax error, missing dependency, etc.)
 **Then** I receive a notification:
 - GitHub email notification (automatic)
 - Workflow status visible in repository
 - Failed commit marked in Git history
 
 **And** Build logs provide actionable error messages:
-- Specific Jekyll error displayed
+- Specific Docusaurus/MDX error displayed
 - Line number if syntax error in markdown
-- Missing gem/dependency clearly stated
+- Missing npm package clearly stated
 
 **And** Workflow prevents deployment on build failure:
 - Deploy step only runs if build succeeds
@@ -406,10 +413,10 @@ So that I'm confident automated publishing works before adding platform syndicat
 **When** I perform end-to-end publishing validation
 **Then** The following workflow succeeds:
 
-1. **Create article:** New post in `_posts/2025-01-08-test-deployment.md`
+1. **Create article:** New post in `blog/2025-01-09-test-deployment.md`
 2. **Commit and push:** `git push origin main`
 3. **Workflow triggers:** GitHub Actions starts automatically
-4. **Build succeeds:** Jekyll builds without errors
+4. **Build succeeds:** Docusaurus builds without errors
 5. **Deploy succeeds:** Site deploys to GitHub Pages
 6. **Verify live:** Article accessible at canonical URL within 5 minutes
 7. **Validate SEO:** Canonical tags and metadata correct
@@ -461,7 +468,7 @@ So that only new/modified articles are published (not entire site).
 **When** The GitHub Actions workflow runs `scripts/detect_changes.py`
 **Then** The script outputs a list of changed article files:
 - Compares HEAD vs HEAD~1 (previous commit)
-- Filters for files in `_posts/` directory only
+- Filters for files in `blog/` directory only
 - Returns full paths to changed markdown files
 - Excludes deleted files
 
@@ -475,8 +482,8 @@ So that only new/modified articles are published (not entire site).
 ```json
 {
   "changed_articles": [
-    "_posts/2025-01-08-article-one.md",
-    "_posts/2025-01-09-article-two.md"
+    "blog/2025-01-08-article-one.md",
+    "blog/2025-01-09-article-two.md"
   ]
 }
 ```
@@ -485,7 +492,7 @@ So that only new/modified articles are published (not entire site).
 
 **Technical Notes:**
 - Use `git diff --name-status HEAD HEAD~1`
-- Filter for `_posts/*.md` pattern
+- Filter for `blog/*.md` pattern
 - Python script for consistency with platform adapters
 - See architecture.md for implementation pattern
 
@@ -781,7 +788,7 @@ So that I validate the automation with real content and establish my blog's foun
 **And** Suggested foundational topics (from brainstorming session):
 1. **"Building this Blog: Multi-Platform Publishing with GitHub Actions"** - Meta-content about BMAD-METHOD
 2. **"FastAPI + OAuth2: Production-Ready Identity Integration"** - Identity & Auth branch
-3. **"Docker Compose for Jekyll Development"** - Infrastructure branch
+3. **"Docker Compose for Docusaurus Development"** - Infrastructure branch
 
 **And** Each article demonstrates:
 - Proper front matter format

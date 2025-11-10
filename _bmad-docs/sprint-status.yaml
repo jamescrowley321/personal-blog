@@ -41,7 +41,7 @@ development_status:
   1-2-configure-docusaurus-theme-and-site-branding: done
   1-3-create-blog-post-template-with-mdx-and-front-matter: done
   1-4-configure-blog-features-and-draft-workflow: done
-  1-5-validate-local-development-environment-end-to-end: backlog
+  1-5-validate-local-development-environment-end-to-end: done
   epic-1-retrospective: optional
 
   epic-2: backlog

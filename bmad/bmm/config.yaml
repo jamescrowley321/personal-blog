@@ -6,8 +6,8 @@
 project_name: personal-blog
 include_game_planning: false
 user_skill_level: expert
-tech_docs: '{project-root}/docs'
-dev_story_location: '{project-root}/docs/stories'
+tech_docs: '{project-root}/_bmad-docs'
+dev_story_location: '{project-root}/_bmad-docs/stories'
 install_user_docs: true
 tea_use_mcp_enhancements: true
 
@@ -15,4 +15,4 @@ tea_use_mcp_enhancements: true
 user_name: James Crowley
 communication_language: English
 document_output_language: English
-output_folder: '{project-root}/docs'
+output_folder: '{project-root}/_bmad-docs'

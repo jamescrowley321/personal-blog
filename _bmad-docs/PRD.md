@@ -42,7 +42,7 @@ This is fundamentally a **developer tool** - a Git-based automation workflow tha
 
 **Primary components:**
 - GitHub Actions workflow (automation engine)
-- Static site generator (Jekyll/Hugo/11ty)
+- Static site generator (Docusaurus - chosen for modern DX, React/MDX support, TypeScript)
 - Multi-platform API integrations (Dev.to, Medium, Hashnode)
 - Markdown processing and transformation pipeline
 

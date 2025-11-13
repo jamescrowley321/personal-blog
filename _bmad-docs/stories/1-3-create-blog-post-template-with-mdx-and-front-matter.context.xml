@@ -1,0 +1,265 @@
+<story-context id="bmad/bmm/workflows/4-implementation/story-context/template" v="1.0">
+  <metadata>
+    <epicId>1</epicId>
+    <storyId>3</storyId>
+    <title>Create Blog Post Template with MDX and Front Matter</title>
+    <status>drafted</status>
+    <generatedAt>2025-11-09</generatedAt>
+    <generator>BMAD Story Context Workflow</generator>
+    <sourceStoryPath>_bmad-docs/stories/1-3-create-blog-post-template-with-mdx-and-front-matter.md</sourceStoryPath>
+  </metadata>
+
+  <story>
+    <asA>a developer</asA>
+    <iWant>to create a sample blog post demonstrating MDX features and front matter</iWant>
+    <soThat>I have a template for future articles with proper metadata and interactive components</soThat>
+    <tasks>
+      <task id="1" ac="1,2">
+        <name>Create Sample Blog Post File</name>
+        <subtasks>
+          - Create file blog/2025-01-09-sample-article.mdx with proper date format
+          - Add required front matter (title, authors, tags, description)
+          - Verify authors.yml reference is correct (authors: [james])
+          - Choose appropriate tags for the sample article
+        </subtasks>
+      </task>
+      <task id="2" ac="3">
+        <name>Write Article Content with Markdown</name>
+        <subtasks>
+          - Add introduction section with article purpose
+          - Include multiple headers (H2, H3) for structure
+          - Add paragraphs, bulleted/numbered lists
+          - Create code blocks with Python and/or TypeScript examples
+          - Ensure code blocks specify language for syntax highlighting
+        </subtasks>
+      </task>
+      <task id="3" ac="3,4">
+        <name>Add Visual Elements</name>
+        <subtasks>
+          - Add at least one image to static/img/ folder
+          - Reference image in blog post using proper path
+          - Test image loading in local dev server
+          - (Optional) Create simple React component to demonstrate MDX
+        </subtasks>
+      </task>
+      <task id="4" ac="4">
+        <name>Validate Article Rendering</name>
+        <subtasks>
+          - Start Docusaurus dev server (npm start)
+          - Navigate to blog index page
+          - Click on sample article to view full post
+          - Verify title, author info, tags display correctly
+          - Confirm syntax highlighting works on code blocks
+          - Check reading time estimate appears
+          - Test image rendering
+        </subtasks>
+      </task>
+      <task id="5" ac="1,2,3">
+        <name>Create Article Template Documentation</name>
+        <subtasks>
+          - Document front matter schema in blog post or comments
+          - Note filename naming convention (YYYY-MM-DD-title-slug.mdx)
+          - Provide example code block syntax
+          - Document image path convention (static/img/)
+        </subtasks>
+      </task>
+    </tasks>
+  </story>
+
+  <acceptanceCriteria>
+    <criterion id="1">
+      <name>Sample Blog Post Created</name>
+      <description>A blog post file exists at blog/2025-01-09-sample-article.mdx with required front matter fields (title, authors, tags, description), proper filename format (YYYY-MM-DD-title-slug.mdx), and valid MDX syntax</description>
+    </criterion>
+    <criterion id="2">
+      <name>Front Matter Configuration</name>
+      <description>The front matter includes title (descriptive article title), authors (reference to james from authors.yml), tags (array of relevant tags like [docusaurus, automation, blogging]), and description (SEO-friendly description max 160 chars)</description>
+    </criterion>
+    <criterion id="3">
+      <name>Article Content demonstrates MDX Features</name>
+      <description>The article includes multiple markdown sections (headers, paragraphs, lists), code blocks with syntax highlighting (Python/TypeScript examples), images loaded from static assets (static/img/), and optionally import/use of React component to demonstrate MDX power</description>
+    </criterion>
+    <criterion id="4">
+      <name>Article Renders Correctly</name>
+      <description>When viewed at localhost:3000/personal-blog/blog, title displays properly, author information shows correctly (name, title, avatar from authors.yml), tags are visible and clickable, syntax highlighting works for code blocks, reading time estimate appears, and images load correctly</description>
+    </criterion>
+  </acceptanceCriteria>
+
+  <artifacts>
+    <docs>
+      <doc>
+        <path>_bmad-docs/PRD.md</path>
+        <title>Product Requirements Document</title>
+        <section>FR-1.1: Markdown Article Creation</section>
+        <snippet>PRD emphasizes markdown article creation with metadata. Blog posts should include front matter with title, tags, description for SEO and categorization.</snippet>
+      </doc>
+      <doc>
+        <path>_bmad-docs/tech-spec-epic-1.md</path>
+        <title>Epic 1 Technical Specification</title>
+        <section>Blog Post Template Requirements</section>
+        <snippet>Docusaurus blog supports .md and .mdx formats. Filename format: YYYY-MM-DD-title-slug. Front matter parsed by gray-matter. MDX enables React component imports for interactive content.</snippet>
+      </doc>
+      <doc>
+        <path>_bmad-docs/architecture.md</path>
+        <title>Architecture Document</title>
+        <section>Docusaurus Configuration & Blog Setup</section>
+        <snippet>Docusaurus Classic Preset includes blog plugin with MDX support. Blog posts in blog/ directory. Static assets in static/img/. Syntax highlighting via Prism.js with GitHub (light) and Dracula (dark) themes.</snippet>
+      </doc>
+      <doc>
+        <path>_bmad-docs/epics.md</path>
+        <title>Epic Breakdown</title>
+        <section>Story 1.3: Create Blog Post Template with MDX and Front Matter</section>
+        <snippet>Create sample blog post blog/2025-01-09-sample-article.mdx demonstrating MDX features, front matter schema, syntax highlighting, and image loading. Template for future articles with metadata and interactive components.</snippet>
+      </doc>
+    </docs>
+    <code>
+      <artifact>
+        <path>blog/authors.yml</path>
+        <kind>configuration</kind>
+        <symbol>james</symbol>
+        <lines>1-9</lines>
+        <reason>Author metadata configured in Story 1.2. Use 'james' key in authors front matter field. Contains name, title, GitHub avatar URL, and social links.</reason>
+      </artifact>
+      <artifact>
+        <path>blog/2021-08-01-mdx-blog-post.mdx</path>
+        <kind>example</kind>
+        <symbol>N/A</symbol>
+        <lines>1-50</lines>
+        <reason>Existing MDX blog post example showing front matter structure, MDX component imports, and markdown content. Reference for proper MDX syntax and feature demonstration.</reason>
+      </artifact>
+      <artifact>
+        <path>blog/2021-08-26-welcome/index.md</path>
+        <kind>example</kind>
+        <symbol>N/A</symbol>
+        <lines>1-40</lines>
+        <reason>Blog post with subdirectory structure and co-located assets. Shows alternative organization pattern for posts with multiple images or files.</reason>
+      </artifact>
+      <artifact>
+        <path>docusaurus.config.ts</path>
+        <kind>configuration</kind>
+        <symbol>blog</symbol>
+        <lines>49-63</lines>
+        <reason>Blog plugin configuration including showReadingTime, RSS/Atom feeds, and blog-specific linting options. Reading time estimate feature enabled at line 50.</reason>
+      </artifact>
+      <artifact>
+        <path>static/img/</path>
+        <kind>directory</kind>
+        <symbol>N/A</symbol>
+        <lines>N/A</lines>
+        <reason>Static assets directory for images. Reference images in blog posts using /img/filename.png path (relative to static/).</reason>
+      </artifact>
+    </code>
+    <dependencies>
+      <ecosystem name="Node.js/npm">
+        <package name="@docusaurus/core" version="3.9.2" />
+        <package name="@docusaurus/preset-classic" version="3.9.2" />
+        <package name="@mdx-js/react" version="^3.0.0" />
+        <package name="react" version="^19.0.0" />
+        <package name="react-dom" version="^19.0.0" />
+        <package name="prism-react-renderer" version="^2.3.0" />
+      </ecosystem>
+    </dependencies>
+  </artifacts>
+
+  <constraints>
+    <constraint>Filename must follow YYYY-MM-DD-title-slug format for proper blog ordering and URL generation</constraint>
+    <constraint>Use .mdx extension (not .md) to enable MDX features including React component imports</constraint>
+    <constraint>Front matter must include at minimum: title, authors array referencing authors.yml keys</constraint>
+    <constraint>Authors field must reference existing author key from blog/authors.yml (use 'james')</constraint>
+    <constraint>Tags should be lowercase, hyphenated strings for consistency (e.g., 'docusaurus', 'automation')</constraint>
+    <constraint>Description should be concise (max 160 chars) for SEO meta description</constraint>
+    <constraint>Code blocks must specify language identifier for syntax highlighting (e.g., ```python, ```typescript)</constraint>
+    <constraint>Images must be placed in static/img/ and referenced with /img/ path prefix</constraint>
+    <constraint>Blog post URL will be /personal-blog/blog/YYYY/MM/DD/title-slug based on docusaurus.config.ts baseUrl</constraint>
+    <constraint>Maintain professional tone consistent with technical blog identity established in Story 1.2</constraint>
+  </constraints>
+
+  <interfaces>
+    <interface>
+      <name>Blog Front Matter Schema</name>
+      <kind>YAML front matter</kind>
+      <signature>---
+title: string (required)
+authors: array&lt;string&gt; (required - refs to authors.yml)
+tags: array&lt;string&gt; (optional)
+description: string (optional, max 160 chars)
+image: string (optional - social card override)
+draft: boolean (optional - default false)
+---</signature>
+      <path>blog/*.mdx front matter section</path>
+    </interface>
+    <interface>
+      <name>Authors YAML Schema</name>
+      <kind>YAML configuration</kind>
+      <signature>author_key:
+  name: string
+  title: string
+  url: string (GitHub profile)
+  image_url: string (avatar URL)
+  page: boolean
+  socials:
+    github: string
+    linkedin: string</signature>
+      <path>blog/authors.yml</path>
+    </interface>
+    <interface>
+      <name>MDX Component Import</name>
+      <kind>MDX/JSX syntax</kind>
+      <signature>import ComponentName from '@site/src/components/ComponentName';
+
+&lt;ComponentName prop="value" /&gt;</signature>
+      <path>blog/*.mdx body</path>
+    </interface>
+    <interface>
+      <name>Image Reference</name>
+      <kind>Markdown syntax</kind>
+      <signature>![Alt text](/img/filename.png "Optional title")</signature>
+      <path>blog/*.mdx body</path>
+    </interface>
+    <interface>
+      <name>Code Block with Highlighting</name>
+      <kind>Markdown syntax</kind>
+      <signature>```language
+code here
+```</signature>
+      <path>blog/*.mdx body</path>
+    </interface>
+  </interfaces>
+
+  <tests>
+    <standards>Manual testing via Docusaurus dev server. Validate blog post rendering, metadata display, syntax highlighting, image loading, and responsive design. No automated tests for content creation stories.</standards>
+    <locations>Testing performed via local development server at localhost:3000/personal-blog/blog and visual inspection of rendered blog post.</locations>
+    <ideas>
+      <test id="AC-1" description="Verify sample blog post file created with proper structure">
+        - Check file exists: blog/2025-01-09-sample-article.mdx
+        - Validate filename format matches YYYY-MM-DD-title-slug pattern
+        - Parse front matter and verify required fields present
+        - Verify MDX syntax is valid (no parse errors on server start)
+      </test>
+      <test id="AC-2" description="Validate front matter configuration">
+        - Verify title field is descriptive string
+        - Check authors: [james] references existing authors.yml key
+        - Validate tags array contains relevant lowercase tags
+        - Confirm description is present and under 160 characters
+      </test>
+      <test id="AC-3" description="Confirm article demonstrates MDX features">
+        - Check multiple header levels (H2, H3) present
+        - Verify paragraphs and lists for content structure
+        - Validate code blocks with language identifiers (python, typescript, etc.)
+        - Confirm at least one image referenced from static/img/
+        - (Optional) Check React component import and usage if implemented
+      </test>
+      <test id="AC-4" description="Ensure article renders correctly in browser">
+        - Start dev server and navigate to /personal-blog/blog
+        - Click article link and verify full post displays
+        - Check title renders in page title and header
+        - Verify author card shows: name, title, avatar from authors.yml
+        - Confirm tags appear as clickable links
+        - Validate code syntax highlighting works (colors applied)
+        - Check reading time estimate appears (e.g., "5 min read")
+        - Test image loads without 404 errors
+        - Verify responsive layout on mobile viewport (375px)
+      </test>
+    </ideas>
+  </tests>
+</story-context>

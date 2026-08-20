@@ -194,9 +194,9 @@ This platform is also an **experiment in knowledge crystallization**:
    - Optimized for technical content with extensive code blocks, diagrams, examples
 
 2. **Static site generation**
-   - Jekyll/Hugo/11ty (no strong preference - choose based on simplicity)
+   - Docusaurus 3.9 (React + TypeScript) - chosen for its React/MDX support and built-in blog
    - Minimal UI customization - focus on readability over design
-   - Default or near-default theme acceptable
+   - Default or near-default theme acceptable (`@docusaurus/preset-classic`)
    - GitHub Pages hosting
 
 3. **Multi-platform syndication automation**
@@ -304,12 +304,12 @@ Write article #1 → Commit markdown file → Verify live on all 4 platforms wit
 - **Source control**: GitHub (already hosting py-identity-model, codegen projects)
 - **Hosting**: GitHub Pages (free, integrated with source)
 - **CI/CD**: GitHub Actions (native integration, free for public repos)
-- **Content format**: Markdown with YAML front matter (portable, version-controllable, AI-friendly)
+- **Content format**: Markdown/MDX with YAML front matter (portable, version-controllable, AI-friendly)
 
 **Static Site Generator:**
-- **No strong preference** - choose based on simplicity and GitHub Pages compatibility
-- **Options**: Jekyll (native to GitHub Pages), Hugo (fast builds), 11ty (flexible)
-- **Requirements**: Minimal configuration, good markdown support, syntax highlighting
+- **Docusaurus 3.9 (chosen)** - selected for its React/MDX support and built-in blog
+- **Runtime**: Node.js 20+ with dependencies managed via `package.json` + npm
+- **Features**: `@docusaurus/preset-classic` theme, built-in RSS/Atom feed, Prism syntax highlighting, dark mode
 
 **Design Philosophy:**
 - **Minimal UI optimization** - readability over aesthetics

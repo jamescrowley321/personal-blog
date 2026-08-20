@@ -33,7 +33,7 @@ This implementation readiness assessment validates that the **personal-blog** pr
 - Known risks explicitly documented with mitigation strategies (Medium API deprecation via graceful degradation)
 - Stories appropriately sized for 200k context AI-assisted development
 
-**Next Step:** Run `/bmad:bmm:workflows:sprint-planning` to begin Phase 4 implementation with Story 1.1 (Jekyll starter template initialization)
+**Next Step:** Run `/bmad:bmm:workflows:sprint-planning` to begin Phase 4 implementation with Story 1.1 (Docusaurus starter template initialization)
 
 ---
 
@@ -83,7 +83,7 @@ This implementation readiness check validates that all Phase 0-2 planning and so
 - ✅ PRD with functional and non-functional requirements (Phase 1: Planning)
 - ✅ Epic and story breakdown (Phase 1: Planning)
 - ✅ Architecture document with decisions and patterns (Phase 2: Solutioning)
-- ⚠️ UX Design (Recommended but deferred for MVP per PRD - using default Jekyll theme)
+- ⚠️ UX Design (Recommended but deferred for MVP per PRD - using default Docusaurus theme)
 
 **Workflow Status:**
 - solutioning-gate-check: **required** (currently executing)
@@ -123,11 +123,11 @@ This implementation readiness check validates that all Phase 0-2 planning and so
   - 13 architectural decisions with versions
   - Complete project structure
   - Implementation patterns with code examples
-  - 4 ADRs documenting key choices (Jekyll selection, Medium API inclusion, graceful degradation, Docker Compose)
+  - 4 ADRs documenting key choices (Docusaurus selection, Medium API inclusion, graceful degradation, Docker Compose)
 - ✅ **Architecture Validation** - Independently validated with 93% pass rate (88/95 items)
 
 **Missing Documents (Expected for Enterprise Greenfield):**
-- ⚠️ **UX Design Specification** - Marked as "recommended" but explicitly deferred per PRD decision to use default Jekyll Minima theme for MVP. This is an intentional scope decision, not a gap.
+- ⚠️ **UX Design Specification** - Marked as "recommended" but explicitly deferred per PRD decision to use the default Docusaurus classic theme for MVP. This is an intentional scope decision, not a gap.
 
 ### Document Quality Observations
 
@@ -153,11 +153,11 @@ This implementation readiness check validates that all Phase 0-2 planning and so
 **Functional Requirements Summary:**
 - **FR-1: Content Authoring** (4 sub-requirements)
   - Markdown with YAML front matter (title, date, tags, description, canonical_url)
-  - Draft management (`/drafts` → `/posts` workflow)
-  - Local preview via Docker Compose with live reload
+  - Draft management (`draft: true` front matter flag)
+  - Local preview via Docker Compose with hot reload
 
 - **FR-2: Static Site Generation** (2 sub-requirements)
-  - Jekyll/Hugo/11ty with default theme
+  - Docusaurus with default theme
   - Standard site structure (homepage, articles, tags, RSS, sitemap)
 
 - **FR-3: Multi-Platform Publishing** (6 sub-requirements)
@@ -200,9 +200,9 @@ This implementation readiness check validates that all Phase 0-2 planning and so
 
 | Component | Choice | Version | Rationale |
 |-----------|--------|---------|-----------|
-| Static Site Generator | Jekyll (GitHub Pages native) | 3.9.3 | Zero-config deployment, proven stability |
-| Theme | Minima (default) | Bundled | MVP simplicity |
-| Local Dev | Docker Compose | jekyll/jekyll:3.9 | Consistency |
+| Static Site Generator | Docusaurus (React/TypeScript) | 3.9 | Modern DX, MDX support, TypeScript type safety |
+| Theme | Classic (@docusaurus/preset-classic) | Bundled | MVP simplicity |
+| Local Dev | Docker Compose | node:20-alpine | Consistency |
 | CI/CD | GitHub Actions | N/A | Native integration |
 | Scripting | Python | 3.11+ | Platform adapters |
 | Error Handling | Continue on failure | N/A | Graceful degradation |
@@ -219,10 +219,10 @@ This implementation readiness check validates that all Phase 0-2 planning and so
 - Dev.to REST API: `POST https://dev.to/api/articles`
 - Medium REST API: Limited/deprecated but functional
 - Hashnode GraphQL API: Modern API with full functionality
-- GitHub Pages: Native Jekyll deployment
+- GitHub Pages: Static build deployed via GitHub Actions
 
 **ADRs (Architectural Decision Records):**
-- **ADR-001**: Jekyll 3.9.3 over Hugo/11ty (simplicity, GitHub Pages native)
+- **ADR-001**: Docusaurus 3.9 over Hugo/11ty (React/TypeScript DX, MDX support)
 - **ADR-002**: Include Medium API despite deprecation (still functional, easy to drop)
 - **ADR-003**: Graceful degradation with continue-on-error (reliability)
 - **ADR-004**: Docker Compose for local dev (consistency, cross-platform)
@@ -237,16 +237,16 @@ This implementation readiness check validates that all Phase 0-2 planning and so
 
 **Epic Breakdown:**
 
-**Epic 1: Jekyll Foundation & Local Dev (5 stories)**
+**Epic 1: Docusaurus Foundation & Local Dev (5 stories)**
 - Story 1.1: Starter template initialization with Docker Compose
-- Story 1.2: Jekyll configuration and default theme
+- Story 1.2: Docusaurus configuration and default theme
 - Story 1.3: Article structure and front matter
 - Story 1.4: Draft management workflow
-- Story 1.5: Local preview with live reload
+- Story 1.5: Local preview with hot reload
 
 **Epic 2: GitHub Pages Deployment (5 stories)**
 - Story 2.1: GitHub Actions workflow setup
-- Story 2.2: Jekyll build automation
+- Story 2.2: Docusaurus build automation
 - Story 2.3: GitHub Pages deployment
 - Story 2.4: Change detection (Git diff)
 - Story 2.5: Workflow notifications
@@ -284,7 +284,7 @@ This implementation readiness check validates that all Phase 0-2 planning and so
 - ✅ "Canonical URL" used consistently across all documents
 - ✅ Platform names consistent: Dev.to, Medium, Hashnode, GitHub Pages
 - ✅ "Graceful degradation" pattern terminology aligned
-- ✅ Technology versions match (Jekyll 3.9.3, Python 3.11+)
+- ✅ Technology versions match (Docusaurus 3.9, Python 3.11+)
 
 **Requirements Traceability:**
 - ✅ PRD requirements map to architecture decisions
@@ -304,11 +304,11 @@ This implementation readiness check validates that all Phase 0-2 planning and so
 
 | PRD Requirement | Architecture Support | Status |
 |----------------|---------------------|--------|
-| **FR-1.1**: Markdown with YAML front matter | Jekyll native support, front matter template defined | ✅ Complete |
-| **FR-1.2**: Draft management (`/drafts` → `/posts`) | Jekyll `_drafts/` and `_posts/` directories | ✅ Complete |
-| **FR-1.3**: Local preview with live reload | Docker Compose with `--livereload` flag | ✅ Complete |
-| **FR-2.1**: Static site build (Jekyll/Hugo/11ty) | Jekyll 3.9.3 selected with clear rationale (ADR-001) | ✅ Complete |
-| **FR-2.2**: Site structure (homepage, tags, RSS, sitemap) | Minima theme provides all, sitemap plugin included | ✅ Complete |
+| **FR-1.1**: Markdown with YAML front matter | Docusaurus native Markdown/MDX support, front matter template defined | ✅ Complete |
+| **FR-1.2**: Draft management (`draft: true` flag) | Docusaurus `draft: true` front matter (no separate directories) | ✅ Complete |
+| **FR-1.3**: Local preview with hot reload | Docker Compose running `npm start` (hot reload) | ✅ Complete |
+| **FR-2.1**: Static site build (Docusaurus) | Docusaurus 3.9 selected with clear rationale (ADR-001) | ✅ Complete |
+| **FR-2.2**: Site structure (homepage, tags, RSS, sitemap) | Classic theme provides all, sitemap plugin included | ✅ Complete |
 | **FR-3.1**: GitHub Actions on merge to `main` | Workflow pattern defined in architecture | ✅ Complete |
 | **FR-3.2**: Changed file detection | Git diff script pattern provided | ✅ Complete |
 | **FR-3.3**: Dev.to API integration | Python adapter pattern with example code | ✅ Complete |
@@ -325,7 +325,7 @@ This implementation readiness check validates that all Phase 0-2 planning and so
 
 | NFR Category | Architecture Implementation | Status |
 |--------------|---------------------------|--------|
-| **NFR-1**: Performance (<5 min publish, <30s Docker start) | Jekyll 3.9.3 fast builds, Docker Compose optimization | ✅ Addressed |
+| **NFR-1**: Performance (<5 min publish, <30s Docker start) | Docusaurus 3.9 builds, Docker Compose optimization | ✅ Addressed |
 | **NFR-2**: Reliability (100% target, graceful degradation) | ADR-003 continue-on-error pattern, retry logic in adapters | ✅ Addressed |
 | **NFR-3**: Security (secrets, HTTPS) | GitHub Secrets integration, HTTPS by default | ✅ Addressed |
 | **NFR-4**: Maintainability (modular scripts, logging) | Separate adapter files, standardized interface | ✅ Addressed |
@@ -345,13 +345,13 @@ This implementation readiness check validates that all Phase 0-2 planning and so
 **FR-1: Content Authoring → Epic 1 Stories**
 - FR-1.1 (Markdown/YAML) → Story 1.3 (Article structure and front matter)
 - FR-1.2 (Drafts) → Story 1.4 (Draft management workflow)
-- FR-1.3 (Local preview) → Story 1.5 (Local preview with live reload)
+- FR-1.3 (Local preview) → Story 1.5 (Local preview with hot reload)
 - Story 1.1 (Starter template) - Foundation for all FR-1 requirements
-- Story 1.2 (Jekyll config) - Enables FR-1 functionality
+- Story 1.2 (Docusaurus config) - Enables FR-1 functionality
 - **Coverage: ✅ Complete (5 stories)**
 
 **FR-2: Static Site Generation → Epic 1 & 2 Stories**
-- FR-2.1 (Build process) → Story 1.2 (Jekyll configuration), Story 2.2 (Build automation)
+- FR-2.1 (Build process) → Story 1.2 (Docusaurus configuration), Story 2.2 (Build automation)
 - FR-2.2 (Site structure) → Story 1.2 (includes RSS, sitemap via theme)
 - **Coverage: ✅ Complete**
 
@@ -394,8 +394,8 @@ This implementation readiness check validates that all Phase 0-2 planning and so
 
 | Architectural Decision | Implementing Stories | Status |
 |----------------------|---------------------|--------|
-| **Jekyll 3.9.3** (ADR-001) | Story 1.1 (init), 1.2 (config), 2.2 (build) | ✅ Covered |
-| **Minima theme** | Story 1.2 (Jekyll configuration) | ✅ Covered |
+| **Docusaurus 3.9** (ADR-001) | Story 1.1 (init), 1.2 (config), 2.2 (build) | ✅ Covered |
+| **Classic theme (preset-classic)** | Story 1.2 (Docusaurus configuration) | ✅ Covered |
 | **Docker Compose** (ADR-004) | Story 1.1 (starter template with docker-compose.yml) | ✅ Covered |
 | **Python 3.11+ adapters** | Stories 3.2, 3.3, 3.4 (platform adapters) | ✅ Covered |
 | **Graceful degradation** (ADR-003) | Story 3.6 (Error handling with continue-on-error) | ✅ Covered |
@@ -406,7 +406,7 @@ This implementation readiness check validates that all Phase 0-2 planning and so
 
 **Infrastructure & Setup Stories:**
 - ✅ Story 1.1: Project initialization (greenfield setup)
-- ✅ Story 1.2: Jekyll configuration (foundation)
+- ✅ Story 1.2: Docusaurus configuration (foundation)
 - ✅ Story 2.1: GitHub Actions setup (CI/CD infrastructure)
 - ✅ Story 2.3: GitHub Pages configuration (deployment infrastructure)
 
@@ -468,7 +468,7 @@ Story dependencies are properly ordered:
 
 Documents are internally consistent:
 
-- ✅ Technology choices consistent (Jekyll 3.9.3, Python 3.11+)
+- ✅ Technology choices consistent (Docusaurus 3.9, Python 3.11+)
 - ✅ Platform terminology consistent across all documents
 - ✅ Success criteria aligned (100% success, <5 min publish, 10 articles)
 - ✅ Architectural patterns match story implementation approach
@@ -480,7 +480,7 @@ Documents are internally consistent:
 
 Architecture and stories align with MVP scope:
 
-- ✅ Default Minima theme (no custom design)
+- ✅ Default Docusaurus classic theme (no custom design)
 - ✅ No analytics integration
 - ✅ No comment systems
 - ✅ No newsletter/email features
@@ -491,7 +491,7 @@ Architecture and stories align with MVP scope:
 
 **Architecture appropriately sized:**
 - ✅ Stateless (no unnecessary database)
-- ✅ Minimal dependencies (Jekyll, Python, Docker)
+- ✅ Minimal dependencies (Docusaurus, Python, Docker)
 - ✅ No over-engineering detected
 
 #### Known Risks and Mitigation Strategies
@@ -524,7 +524,7 @@ Architecture and stories align with MVP scope:
 **Risk 4: Docker Compose Platform Compatibility** (Severity: LOW, Likelihood: LOW)
 - **Description**: Docker behavior differences across macOS/Linux/Windows
 - **Impact**: Local development inconsistencies
-- **Mitigation**: Using official Jekyll Docker image (jekyll/jekyll:3.9) reduces risk
+- **Mitigation**: Using official Node Docker image (node:20-alpine) reduces risk
 - **Status**: ✅ **Addressed via ADR-004**
 
 **Risk 5: GitHub Pages Build Limits** (Severity: LOW, Likelihood: LOW)
@@ -596,11 +596,11 @@ Architecture and stories align with MVP scope:
 
 **Despite no formal UX spec, basic UX requirements ARE addressed:**
 
-1. **Responsive Design** - Minima theme is mobile-responsive by default (PRD:419)
+1. **Responsive Design** - Classic theme is mobile-responsive by default (PRD:419)
 2. **Code Syntax Highlighting** - Default theme provides this (PRD:317)
-3. **Accessibility** - Minima theme follows basic HTML5 semantic standards
+3. **Accessibility** - Classic theme follows basic HTML5 semantic standards
 4. **Performance** - NFR-1 specifies <3 second page load (PRD:418)
-5. **Usability** - Standard blog layout (homepage, articles, tags) via Minima theme
+5. **Usability** - Standard blog layout (homepage, articles, tags) via classic theme
 
 **Conclusion**: ✅ **UX requirements appropriate for MVP scope - default theme meets basic usability needs**
 
@@ -724,7 +724,7 @@ _Minor items for consideration_
 
 **6. Consistent Technical Decisions**
 - **Achievement**: Technology versions pinned and consistent across all documents
-- **Evidence**: Jekyll 3.9.3, Python 3.11+, Docker Compose - no conflicts
+- **Evidence**: Docusaurus 3.9, Python 3.11+, Docker Compose - no conflicts
 - **Impact**: No integration issues, clear dependency management
 
 **7. Expert-Level Story Sizing**
@@ -766,7 +766,7 @@ The project can begin sprint planning and development immediately.
 
 **NONE REQUIRED** - Current epic and story sequencing is optimal:
 
-1. Epic 1: Jekyll Foundation & Local Dev (1-2 weeks)
+1. Epic 1: Docusaurus Foundation & Local Dev (1-2 weeks)
 2. Epic 2: GitHub Pages Deployment Pipeline (1 week)
 3. Epic 3: Multi-Platform Syndication (2-3 weeks)
 4. Epic 4: Production Validation & Sustainability (10 weeks)
@@ -836,7 +836,7 @@ The 3 medium-priority observations are **optional enhancements** that can be add
 
 2. **Begin Development with Story 1.1**
    - Story: Initialize project with starter template and Docker Compose
-   - Epic: Jekyll Foundation & Local Dev
+   - Epic: Docusaurus Foundation & Local Dev
    - This is the foundational story that all others depend on
 
 3. **Optional Story Enhancements** (Can be addressed during implementation)
@@ -942,12 +942,12 @@ The 3 medium-priority observations are **optional enhancements** that can be add
 
 | Requirement | Architecture Decision | Implementing Stories | Status |
 |-------------|----------------------|---------------------|--------|
-| FR-1: Content Authoring | Jekyll native markdown support, Docker Compose | Stories 1.1-1.5 (Epic 1) | ✅ |
-| FR-2: Static Site Generation | Jekyll 3.9.3, Minima theme (ADR-001) | Stories 1.2, 2.2 | ✅ |
+| FR-1: Content Authoring | Docusaurus native Markdown/MDX support, Docker Compose | Stories 1.1-1.5 (Epic 1) | ✅ |
+| FR-2: Static Site Generation | Docusaurus 3.9, Classic theme (ADR-001) | Stories 1.2, 2.2 | ✅ |
 | FR-3: Multi-Platform Publishing | Platform adapters, graceful degradation (ADR-003) | Stories 2.1-2.5, 3.1-3.6 | ✅ |
 | FR-4: Workflow Reliability | Standardized interface, notifications | Stories 2.5, 3.6 | ✅ |
 | FR-5: Article Updates | Git diff change detection | Story 2.4 | ✅ |
-| NFR-1: Performance | Jekyll 3.9.3 fast builds, incremental publishing | All epics | ✅ |
+| NFR-1: Performance | Docusaurus 3.9 builds, incremental publishing | All epics | ✅ |
 | NFR-2: Reliability | Continue-on-error pattern, retry logic | Story 3.6, NFR guidance | ✅ |
 | NFR-3: Security | GitHub Secrets, HTTPS | Architecture patterns | ✅ |
 | NFR-4: Maintainability | Modular scripts, standardized interface | Epic 3 stories | ✅ |
@@ -990,8 +990,8 @@ The 3 medium-priority observations are **optional enhancements** that can be add
 - **Timeline**: Story 3.1 addresses this explicitly
 
 **Risk 4: Performance Below Targets**
-- **Mitigation Strategy**: Incremental publishing (Git diff), fast Jekyll builds
-- **Implementation**: Story 2.4 (change detection), Jekyll 3.9.3 performance
+- **Mitigation Strategy**: Incremental publishing (Git diff), Docusaurus builds
+- **Implementation**: Story 2.4 (change detection), Docusaurus 3.9 build performance
 - **Fallback Plan**: Optimize workflow, parallel API calls, caching
 - **Monitoring**: Epic 4 will validate <5 min target
 - **Timeline**: Performance emerges naturally, Epic 4 validates

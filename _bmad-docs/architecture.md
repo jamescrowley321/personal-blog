@@ -24,8 +24,8 @@ cd personal-blog
 ```json
 {
   "dependencies": {
-    "@docusaurus/core": "^3.6.0",
-    "@docusaurus/preset-classic": "^3.6.0",
+    "@docusaurus/core": "^3.9.0",
+    "@docusaurus/preset-classic": "^3.9.0",
     "react": "^18.0.0",
     "react-dom": "^18.0.0"
   }
@@ -41,7 +41,7 @@ services:
     working_dir: /app
     command: npm start -- --host 0.0.0.0 --port 3000
     ports:
-      - "3000:3000"
+      - "3001:3000"
     volumes:
       - .:/app
       - /app/node_modules
@@ -60,7 +60,7 @@ This establishes the foundation with these decisions already made:
 
 | Category | Decision | Version | Affects Epics | Rationale |
 | -------- | -------- | ------- | ------------- | --------- |
-| Static Site Generator | Docusaurus | 3.6+ | All content epics | Modern React-based platform, excellent DX, active development, MDX support |
+| Static Site Generator | Docusaurus | 3.9 | All content epics | Modern React-based platform, excellent DX, active development, MDX support |
 | Theme | Classic Preset | Bundled with Docusaurus | Content authoring | Modern responsive design, blog-ready, customizable with React |
 | Local Development | Docker Compose | node:20-alpine | Development workflow | Environment consistency, cross-platform support, Node.js ecosystem |
 | Deployment | GitHub Pages | N/A | Publishing pipeline | Free hosting, automatic deployment via GitHub Actions |
@@ -121,7 +121,7 @@ personal-blog/
 ### Core Technologies
 
 **Static Site Generation:**
-- **Docusaurus 3.6+** - Modern React-based static site generator
+- **Docusaurus 3.9** - Modern React-based static site generator
 - **Classic Preset** - Blog-ready theme with responsive design
 - **MDX Support** - Write JSX in markdown, embed React components
 - **TypeScript** - Type safety for configuration and customization
@@ -133,7 +133,7 @@ personal-blog/
 
 **Deployment:**
 - **GitHub Pages** - Free static hosting
-- **GitHub Actions** - Build Docusaurus, deploy to gh-pages branch
+- **GitHub Actions** - Build Docusaurus, deploy via GitHub Pages artifact
 
 **Scripting & Automation:**
 - **Node.js 20+** - Platform adapter scripts
@@ -165,7 +165,7 @@ personal-blog/
 ---
 title: "Article Title"
 date: 2025-01-15
-tags: [python, jekyll, automation]
+tags: [python, docusaurus, automation]
 description: "Short description"
 canonical_url: "https://username.github.io/personal-blog/article-title"
 ---
@@ -185,14 +185,14 @@ These patterns ensure consistent implementation across all AI agents:
 **Article Files:**
 - Format: `YYYY-MM-DD-title-slug.md`
 - Example: `2025-01-15-fastapi-oauth2-integration.md`
-- Location: `_posts/` (published) or `_drafts/` (unpublished)
+- Location: `blog/` (drafts use `draft: true` frontmatter)
 
 **Python Scripts:**
 - Format: `snake_case.py`
 - Example: `publish_devto.py`, `detect_changes.py`
 
 **Configuration Files:**
-- Jekyll: `_config.yml`
+- Docusaurus: `docusaurus.config.ts`
 - Docker: `docker-compose.yml`
 - Git: `.gitignore`
 
@@ -254,7 +254,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-      - name: Build Jekyll site (GitHub Pages deployment)
+      - name: Build Docusaurus site (GitHub Pages deployment)
       - name: Detect changed articles
       - name: Publish to Dev.to (continue-on-error: true)
       - name: Publish to Medium (continue-on-error: true)
@@ -282,7 +282,7 @@ jobs:
 - Prefix platform-specific: `publish_devto`, `publish_medium`, `publish_hashnode`
 
 **Files & Directories:**
-- Directories: `lowercase` or `_underscore` (Jekyll convention)
+- Directories: `lowercase` (Docusaurus convention)
 - Scripts: `snake_case.py`
 - Articles: `YYYY-MM-DD-slug.md`
 
@@ -320,8 +320,8 @@ if __name__ == "__main__":
 
 **File Location Rules:**
 - All Python scripts: `scripts/`
-- All articles: `_posts/` (published) or `_drafts/` (work in progress)
-- Images: `assets/images/`
+- All articles: `blog/` (drafts use `draft: true` frontmatter)
+- Images: `static/img/`
 - Configuration: project root
 
 ### Error Handling
@@ -386,7 +386,7 @@ date: YYYY-MM-DD (required)
 tags: array of strings (required, max 4 for platforms)
 description: string (required, <160 chars for SEO)
 canonical_url: string (required, GitHub Pages URL)
-published: boolean (optional, default true)
+draft: boolean (optional, default false)
 ---
 ```
 
@@ -512,7 +512,7 @@ MEDIUM_USER_ID (if needed)
 ```
 
 **Content Security:**
-- Markdown sanitization handled by Jekyll (XSS prevention)
+- Markdown sanitization handled by Docusaurus (XSS prevention)
 - No user input processed (content comes from trusted Git repo)
 - HTTPS for all API calls
 - HTTPS for GitHub Pages (automatic)
@@ -526,8 +526,8 @@ MEDIUM_USER_ID (if needed)
 
 **Build Performance:**
 - Docker Compose local preview: <30 seconds startup
-- LiveReload: <5 seconds file change → browser refresh
-- Jekyll build (50 articles): <2 minutes
+- Hot reload: <5 seconds file change → browser refresh
+- Docusaurus build (50 articles): <2 minutes
 
 **Publish Performance:**
 - Total workflow time: <5 minutes (GitHub Pages + 3 platforms)
@@ -542,9 +542,9 @@ MEDIUM_USER_ID (if needed)
 - Static site = instant page loads (<3 seconds)
 
 **Optimization Strategies:**
-- Jekyll incremental builds (only rebuild changed files)
+- Docusaurus build caching (only rebuild changed files)
 - Image optimization (compress before commit)
-- Minimal JavaScript (default Minima theme)
+- Optimized JavaScript via code splitting (default classic theme)
 - CDN via GitHub Pages (free, fast)
 
 ## Deployment Architecture
@@ -553,14 +553,14 @@ MEDIUM_USER_ID (if needed)
 - Hosting: GitHub Pages (free, HTTPS, CDN)
 - URL: `https://username.github.io/personal-blog/`
 - Deployment trigger: Push to `main` branch
-- Build: GitHub Actions builds Jekyll, deploys to `gh-pages` branch
+- Build: GitHub Actions builds Docusaurus, deploys via GitHub Pages artifact
 
 **CI/CD Pipeline:**
 ```
-Developer → Write article in _posts/
+Developer → Write article in blog/
          → Commit + push to main
          → GitHub Actions triggered
-         → Jekyll build + deploy to GitHub Pages
+         → Docusaurus build + deploy to GitHub Pages
          → Detect changed articles (git diff)
          → Publish to Dev.to (parallel)
          → Publish to Medium (parallel)
@@ -572,7 +572,7 @@ Developer → Write article in _posts/
 - Public GitHub repository (for free GitHub Pages)
 - GitHub Actions enabled
 - Secrets configured (API keys)
-- `gh-pages` branch created (automatic)
+- GitHub Pages source set to GitHub Actions
 
 **Rollback Strategy:**
 - `git revert` commit → Re-run workflow
@@ -589,7 +589,7 @@ Developer → Write article in _posts/
 - Text editor (VS Code, Vim, etc.)
 
 **Optional:**
-- Ruby + Jekyll (for native local dev without Docker)
+- Node.js 20+ (for native local dev without Docker)
 - Python 3.11+ (for testing scripts locally)
 
 ### Setup Commands
@@ -603,36 +603,37 @@ cd personal-blog
 # Start local preview (Docker Compose)
 docker-compose up
 
-# Site available at http://localhost:4000
-# LiveReload at http://localhost:35729
+# Site available at http://localhost:3001
+# Hot reload enabled automatically
 ```
 
 **Create New Article:**
 ```bash
-# Create in _drafts/ first (not published)
-touch _drafts/my-new-article.md
+# Create in blog/ with draft: true (not published in production builds)
+touch blog/2025-01-15-my-new-article.md
 
 # Edit with front matter
-cat > _drafts/my-new-article.md << 'EOF'
+cat > blog/2025-01-15-my-new-article.md << 'EOF'
 ---
 title: "My New Article"
 date: 2025-01-15
 tags: [python, automation]
 description: "Short description"
+draft: true
 canonical_url: "https://username.github.io/personal-blog/my-new-article"
 ---
 
 # Article content here...
 EOF
 
-# Preview locally (drafts visible with --drafts flag)
+# Preview locally (drafts shown by npm start, hidden in production build)
 # Already running in docker-compose.yml
 
-# When ready to publish, move to _posts/
-mv _drafts/my-new-article.md _posts/2025-01-15-my-new-article.md
+# When ready to publish, remove draft: true from the front matter
+# (the file already lives at blog/2025-01-15-my-new-article.md)
 
 # Commit and push
-git add _posts/2025-01-15-my-new-article.md
+git add blog/2025-01-15-my-new-article.md
 git commit -m "Add article: My New Article"
 git push origin main
 
@@ -646,7 +647,7 @@ pip install requests gql frontmatter python-frontmatter
 
 # Test Dev.to publish (dry run)
 export DEV_TO_API_KEY="your-key"
-python scripts/publish_devto.py _posts/2025-01-15-my-new-article.md
+python scripts/publish_devto.py blog/2025-01-15-my-new-article.md
 
 # Check output for success/failure
 ```

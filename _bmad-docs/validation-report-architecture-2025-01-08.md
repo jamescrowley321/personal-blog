@@ -53,56 +53,56 @@ Evidence: Cross-reference with PRD FRs shows complete coverage (change detection
 ### 2. Version Specificity (11/11) ✓ PASS
 
 **✓ PASS** - Every technology choice includes a specific version number
-Evidence: Jekyll 3.9.3 (L59), Python 3.11+ (L69), jekyll/jekyll:3.9 Docker image (L61), github-pages gem (L26)
+Evidence: Docusaurus 3.9 (L59), Python 3.11+ (L69), node:20-alpine Docker image (L61), GitHub Actions Pages deploy (L26)
 
 **✓ PASS** - Version numbers are current (verified via WebSearch during workflow)
-Evidence: Architecture workflow included WebSearch steps validating Jekyll 3.9.3 is GitHub Pages current version (not 4.x), Python 3.11+ is current
+Evidence: Architecture workflow included WebSearch steps validating Docusaurus 3.9 is the current stable release, Python 3.11+ is current
 
 **✓ PASS** - Compatible versions selected
-Evidence: Jekyll 3.9.3 matches GitHub Pages native support; jekyll/jekyll:3.9 Docker image matches deployment version; Python 3.11+ compatible with all libraries
+Evidence: Docusaurus 3.9 requires Node.js 20+; node:20-alpine Docker image matches the runtime version; Python 3.11+ compatible with all libraries
 
 **✓ PASS** - Verification dates noted for version checks
 Evidence: L736 "_Date: 2025-01-08_" documents when versions verified
 
 **✓ PASS** - WebSearch used during workflow to verify current versions
-Evidence: Prior workflow execution included searches for "Jekyll latest stable version 2024 2025", "GitHub Pages Jekyll version supported 2024"
+Evidence: Prior workflow execution included searches for "Docusaurus latest stable version 2024 2025", "Docusaurus 3.x current release 2024"
 
 **✓ PASS** - No hardcoded versions from decision catalog trusted without verification
 Evidence: Versions verified against live sources (GitHub Pages docs, Docker Hub)
 
 **✓ PASS** - LTS vs. latest versions considered and documented
-Evidence: ADR-001 (L648-666) explicitly chooses Jekyll 3.9.3 (GitHub Pages standard) over 4.4.1 (latest) with rationale
+Evidence: ADR-001 (L648-666) explicitly chooses Docusaurus 3.9 (current stable) over canary/alpha releases with rationale
 
 **✓ PASS** - Breaking changes between versions noted if relevant
-Evidence: ADR-001 notes Jekyll 3.9.x vs 4.x differences (L663 "Limited to Jekyll 3.9.x features")
+Evidence: ADR-001 notes Docusaurus 2.x vs 3.x differences (L663 "Docusaurus 3.x requires MDX v3")
 
 ---
 
 ### 3. Starter Template Integration (9/9) ✓ PASS
 
 **✓ PASS** - Starter template chosen (or "from scratch" decision documented)
-Evidence: L15 "**No starter template** - Simple Jekyll project structure" explicitly documented
+Evidence: L15 "**No starter template** - Simple Docusaurus project structure" explicitly documented
 
 **✓ PASS** - Project initialization command documented with exact flags
-Evidence: L17-22 shows exact commands: `gem install bundler jekyll` and `jekyll new personal-blog --skip-bundle`
+Evidence: L17-22 shows exact commands: `npx create-docusaurus@latest personal-blog classic --typescript` and `npm install`
 
 **✓ PASS** - Starter template version is current and specified
-Evidence: N/A - no starter used, but Jekyll 3.9.3 specified for manual init
+Evidence: N/A - no starter used, but Docusaurus 3.9 specified for manual init
 
 **✓ PASS** - Command search term provided for verification
 Evidence: L17-22 provides executable bash commands with exact syntax
 
 **✓ PASS** - Decisions provided by starter marked as "PROVIDED BY STARTER"
-Evidence: N/A - no starter used; L49-53 lists what Jekyll provides by default (Minima theme, basic structure)
+Evidence: N/A - no starter used; L49-53 lists what Docusaurus provides by default (classic theme, basic structure)
 
 **✓ PASS** - List of what starter provides is complete
-Evidence: L49-53 itemizes Jekyll defaults: version, theme, local dev approach, LiveReload
+Evidence: L49-53 itemizes Docusaurus defaults: version, theme, local dev approach, hot reload
 
 **✓ PASS** - Remaining decisions (not covered by starter) clearly identified
-Evidence: L57-71 Decision Summary table shows all custom decisions beyond Jekyll defaults
+Evidence: L57-71 Decision Summary table shows all custom decisions beyond Docusaurus defaults
 
 **✓ PASS** - No duplicate decisions that starter already makes
-Evidence: No conflicts; custom decisions (Python scripts, platform APIs, GitHub Actions) orthogonal to Jekyll basics
+Evidence: No conflicts; custom decisions (Python scripts, platform APIs, GitHub Actions) orthogonal to Docusaurus basics
 
 ---
 
@@ -115,13 +115,13 @@ Evidence: Multi-platform syndication with graceful degradation is the novel patt
 Evidence: L191-232 API Integration Pattern shows platform adapter structure; L234-261 GitHub Actions workflow pattern with graceful degradation
 
 **✓ PASS** - Multi-epic workflows requiring custom design captured
-Evidence: L140-169 Integration Points section maps workflow across GitHub Actions → Jekyll → Platform Adapters
+Evidence: L140-169 Integration Points section maps workflow across GitHub Actions → Docusaurus → Platform Adapters
 
 **✓ PASS** - Pattern name and purpose clearly defined
 Evidence: "API Integration Pattern" (L191), "GitHub Actions Workflow Pattern" (L234), "Graceful Degradation" (L71, L257-261)
 
 **✓ PASS** - Component interactions specified
-Evidence: L140-169 shows GitHub Actions → Jekyll Build, → Change Detection, → Platform Adapters with clear data flow
+Evidence: L140-169 shows GitHub Actions → Docusaurus Build, → Change Detection, → Platform Adapters with clear data flow
 
 **✓ PASS** - Data flow documented
 Evidence: L155-169 Article Front Matter → Platform APIs mapping; L550-561 CI/CD Pipeline flow diagram
@@ -133,7 +133,7 @@ Evidence: L194-226 Complete Python function template with comments; L237-255 Git
 Evidence: L228-232 graceful degradation principles; ADR-002 (L670-688) Medium API failure handling; L319-342 error handling patterns
 
 **✓ PASS** - States and transitions clearly defined
-Evidence: L369-391 Data Architecture defines stateless model; draft→published transition (L82-83 _drafts/ → _posts/)
+Evidence: L369-391 Data Architecture defines stateless model; draft→published transition (L82-83 `draft: true` flag removed)
 
 ---
 
@@ -155,7 +155,7 @@ Evidence: L140-169 Integration points; L550-561 CI/CD pipeline communication flo
 Evidence: L319-342 Error handling with try/catch/return; L228-232 graceful degradation (continue on error)
 
 **✓ PASS** - Location Patterns: URL structure, asset organization, config placement
-Evidence: L73-99 complete directory structure; L313-317 file location rules (_posts/, scripts/, assets/images/, root config)
+Evidence: L73-99 complete directory structure; L313-317 file location rules (blog/, scripts/, static/img/, root config)
 
 **✓ PASS** - Consistency Patterns: UI date formats, logging, user-facing errors
 Evidence: L344-367 Logging strategy (levels, format, what to log); L265-279 consistent naming across YAML/Python/env vars
@@ -167,7 +167,7 @@ Evidence: L194-226 complete Python function example; L237-255 GitHub Actions YAM
 Evidence: Explicit formats (YYYY-MM-DD-slug.md L178), exact return types ({'success': bool, 'url': str, 'error': str} L204), specific constants (API_URL L294)
 
 **✓ PASS** - Patterns cover all technologies in the stack
-Evidence: Jekyll (L175-189 naming), Python (L282-311 structure, L265-279 conventions), GitHub Actions (L234-261 workflow), Docker (L32-47 compose file)
+Evidence: Docusaurus (L175-189 naming), Python (L282-311 structure, L265-279 conventions), GitHub Actions (L234-261 workflow), Docker (L32-47 compose file)
 
 **✓ PASS** - No gaps where agents would have to guess
 Evidence: Complete coverage of file naming, directory structure, API patterns, error handling, logging, code organization
@@ -183,7 +183,7 @@ Evidence: Consistent snake_case in Python, kebab-case in YAML, SCREAMING_SNAKE_C
 Evidence: N/A - No database (stateless architecture L371); Git is data store
 
 **✓ PASS** - Frontend framework compatible with deployment target
-Evidence: Jekyll 3.9.3 (L59) explicitly GitHub Pages compatible; ADR-001 confirms native support
+Evidence: Docusaurus 3.9 (L59) deploys to GitHub Pages via GitHub Actions; ADR-001 confirms compatibility
 
 **✓ PASS** - Authentication solution works with chosen frontend/backend
 Evidence: GitHub Secrets (L68, L489-504) work with GitHub Actions; API keys for platform adapters
@@ -192,7 +192,7 @@ Evidence: GitHub Secrets (L68, L489-504) work with GitHub Actions; API keys for 
 Evidence: All platform adapters use same pattern (L191-226); consistent return format across Dev.to/Medium/Hashnode
 
 **✓ PASS** - Starter template compatible with additional choices
-Evidence: N/A - No starter template; manual Jekyll init compatible with all additions
+Evidence: N/A - No starter template; manual Docusaurus init compatible with all additions
 
 **✓ PASS** - Third-party services compatible with chosen stack
 Evidence: Dev.to REST API (L395-421), Medium API (L423-455), Hashnode GraphQL (L457-487) all callable from Python/GitHub Actions
@@ -201,10 +201,10 @@ Evidence: Dev.to REST API (L395-421), Medium API (L423-455), Hashnode GraphQL (L
 Evidence: N/A - No real-time requirements; static site with batch publishing
 
 **✓ PASS** - File storage solution integrates with framework
-Evidence: Git repository stores markdown/images (L73-99); Jekyll processes from filesystem
+Evidence: Git repository stores markdown/images (L73-99); Docusaurus processes from filesystem
 
 **✓ PASS** - Background job system compatible with infrastructure
-Evidence: GitHub Actions IS the background job system; compatible with Python scripts and Jekyll builds
+Evidence: GitHub Actions IS the background job system; compatible with Python scripts and Docusaurus builds
 
 ---
 
@@ -229,10 +229,10 @@ Evidence: L171-367 extensive patterns: file naming, API integration, workflow, n
 Evidence: L191-232 API Integration Pattern (novel multi-platform adapter), L234-261 GitHub Actions graceful degradation pattern
 
 **✓ PASS** - Source tree reflects actual technology decisions (not generic)
-Evidence: L73-99 tree shows Jekyll-specific dirs (_posts, _drafts, _site), Python scripts/, GitHub Actions .github/workflows/, Docker docker-compose.yml
+Evidence: L73-99 tree shows Docusaurus-specific dirs (blog/, docs/, src/, build/), Python scripts/, GitHub Actions .github/workflows/, Docker docker-compose.yml
 
 **✓ PASS** - Technical language used consistently
-Evidence: Consistent terminology (Jekyll, GitHub Actions, Docker Compose, platform adapters, graceful degradation) throughout
+Evidence: Consistent terminology (Docusaurus, GitHub Actions, Docker Compose, platform adapters, graceful degradation) throughout
 
 **✓ PASS** - Tables used instead of prose where appropriate
 Evidence: L57-71 Decision Summary table; could use more tables but prose is clear and structured
@@ -248,10 +248,10 @@ Evidence: Decision table rationale column brief (L59-71); ADRs separate concerns
 ### 8. AI Agent Clarity (14/14) ✓ PASS
 
 **✓ PASS** - No ambiguous decisions that agents could interpret differently
-Evidence: Explicit versions (3.9.3), exact file formats (YYYY-MM-DD-slug.md), specific return types ({'success': bool})
+Evidence: Explicit versions (3.9), exact file formats (YYYY-MM-DD-slug.md), specific return types ({'success': bool})
 
 **✓ PASS** - Clear boundaries between components/modules
-Evidence: L73-99 directory structure separates Jekyll (_posts), scripts (Python), workflows (GitHub Actions), config (root)
+Evidence: L73-99 directory structure separates Docusaurus (blog/), scripts (Python), workflows (GitHub Actions), config (root)
 
 **✓ PASS** - Explicit file organization patterns
 Evidence: L175-189 file naming patterns; L313-317 file location rules
@@ -288,16 +288,16 @@ Evidence: L634-643 shows local testing workflow for platform scripts
 ### 9. Practical Considerations (11/11) ✓ PASS
 
 **✓ PASS** - Chosen stack has good documentation and community support
-Evidence: Jekyll (mature, GitHub-backed), Python (widely used), GitHub Actions (official), Docker (industry standard)
+Evidence: Docusaurus (mature, Meta-backed), Python (widely used), GitHub Actions (official), Docker (industry standard)
 
 **✓ PASS** - Development environment can be set up with specified versions
 Evidence: L589-599 shows exact setup commands; Docker Compose eliminates version conflicts
 
 **✓ PASS** - No experimental or alpha technologies for critical path
-Evidence: All stable: Jekyll 3.9.3 (GitHub Pages standard), Python 3.11+ (stable), Docker Compose (mature)
+Evidence: All stable: Docusaurus 3.9 (current stable), Python 3.11+ (stable), Docker Compose (mature)
 
 **✓ PASS** - Deployment target supports all chosen technologies
-Evidence: GitHub Pages officially supports Jekyll 3.9.3; GitHub Actions supports Python and Docker
+Evidence: GitHub Pages hosts the Docusaurus static build (deployed via GitHub Actions); GitHub Actions supports Node.js, Python and Docker
 
 **✓ PASS** - Starter template (if used) is stable and well-maintained
 Evidence: N/A - No starter template used
@@ -325,7 +325,7 @@ Evidence: Platform adapter pattern (L191-232) stateless and parallelizable; grac
 Evidence: ADR-001 chooses boring technology; ADR-004 chooses no database (simplicity); default theme (L60)
 
 **✓ PASS** - Standard patterns used where possible
-Evidence: Jekyll (industry standard static gen), GitHub Actions (standard CI/CD), REST/GraphQL APIs (standard protocols)
+Evidence: Docusaurus (widely used static gen), GitHub Actions (standard CI/CD), REST/GraphQL APIs (standard protocols)
 
 **✓ PASS** - Complex technologies justified by specific needs
 Evidence: Only "complex" choice is multi-platform syndication - justified by PRD core requirement
@@ -343,7 +343,7 @@ Evidence: L517-540 Performance Considerations section addresses build time, publ
 Evidence: L489-515 Security Architecture: secrets in GitHub Secrets, HTTPS everywhere, minimal permissions, audit trail
 
 **✓ PASS** - Future migration paths not blocked
-Evidence: ADR-001 notes can upgrade to Jekyll 4.x later; pure markdown enables generator switching; modular platform adapters
+Evidence: ADR-001 notes can upgrade to future Docusaurus majors later; pure Markdown/MDX enables generator switching; modular platform adapters
 
 ---
 

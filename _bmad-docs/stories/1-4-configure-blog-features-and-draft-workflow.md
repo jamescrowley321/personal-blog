@@ -283,7 +283,7 @@ One minor documentation clarification was noted regarding draft visibility in de
 **NONE** - No blocking or critical issues found
 
 **Advisory Notes:**
-- **Note:** AC#2 wording suggests drafts should be "visible in development mode" but Docusaurus hides drafts by default in both dev and production (documented correctly in README.md:114). The AC may have been written based on assumptions about Jekyll/Hugo behavior. Current documentation is factually correct for Docusaurus.
+- **Note:** AC#2 wording suggests drafts should be "visible in development mode" but Docusaurus hides drafts by default in both dev and production (documented correctly in README.md:114). The AC may have been written based on assumptions about a different static-site generator's behavior. Current documentation is factually correct for Docusaurus.
 
 ### Acceptance Criteria Coverage
 

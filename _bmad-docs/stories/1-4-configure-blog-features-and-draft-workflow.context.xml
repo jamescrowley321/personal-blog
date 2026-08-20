@@ -87,13 +87,13 @@
         <path>_bmad-docs/PRD.md</path>
         <title>Product Requirements Document</title>
         <section>FR-1.2: Draft Management</section>
-        <snippet>Articles placed in /drafts directory are not published. Drafts visible in local preview via Docker Compose. Moving article from /drafts to /posts or /articles makes it publishable.</snippet>
+        <snippet>Articles with draft: true in front matter are not published. Drafts visible in local preview via Docker Compose. Removing the draft: true flag (or setting draft: false) makes the article publishable.</snippet>
       </doc>
       <doc>
         <path>_bmad-docs/PRD.md</path>
         <title>Product Requirements Document</title>
         <section>FR-1.3: Local Preview</section>
-        <snippet>docker-compose up starts local Jekyll/Hugo instance. Live reload on file changes (hot reload). Drafts and published articles both visible locally.</snippet>
+        <snippet>docker-compose up starts local Docusaurus dev server. Hot reload on file changes. Drafts and published articles both visible locally.</snippet>
       </doc>
       <doc>
         <path>_bmad-docs/architecture.md</path>
@@ -157,7 +157,7 @@
   </artifacts>
 
   <constraints>
-    - Use Docusaurus 3.9.2 blog plugin configuration patterns (not Jekyll/Hugo)
+    - Use Docusaurus 3.9.2 blog plugin configuration patterns
     - Draft posts use front matter flag (draft: true) not separate /drafts directory
     - Reading time already enabled (showReadingTime: true in line 50) - verify it works
     - RSS/Atom feeds already configured (feedOptions in lines 51-54) - verify generation

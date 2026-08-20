@@ -42,7 +42,7 @@ This is fundamentally a **developer tool** - a Git-based automation workflow tha
 
 **Primary components:**
 - GitHub Actions workflow (automation engine)
-- Static site generator (Jekyll/Hugo/11ty)
+- Static site generator (Docusaurus 3.9)
 - Multi-platform API integrations (Dev.to, Medium, Hashnode)
 - Markdown processing and transformation pipeline
 
@@ -107,13 +107,13 @@ This is fundamentally a **developer tool** - a Git-based automation workflow tha
    - Optimized for technical content: code blocks, diagrams, examples
 
 2. **Static site generation**
-   - Jekyll/Hugo/11ty (choose simplest option - likely Jekyll for GitHub Pages native support)
+   - Docusaurus 3.9 (React + TypeScript) - chosen for its React/MDX support and built-in blog
    - Runs in Docker Compose environment for local development and testing
-   - **Default theme for MVP** - no customization until automation proven
-   - Code syntax highlighting (default theme provides this)
+   - **Default theme for MVP** - no customization until automation proven (`@docusaurus/preset-classic`)
+   - Code syntax highlighting (Prism, provided by the classic theme)
    - Mobile-responsive (default theme handles this)
    - Local preview via Docker Compose before committing
-   - Deploy to GitHub Pages from Docker build output
+   - Deploy to GitHub Pages from build output
 
 3. **Multi-platform syndication automation**
    - GitHub Actions workflow triggered on **merge to `main`** (not every commit)
@@ -125,10 +125,10 @@ This is fundamentally a **developer tool** - a Git-based automation workflow tha
    - Canonical URL configuration pointing to GitHub Pages
 
 4. **Draft workflow**
-   - `/drafts` directory for unpublished articles
-   - Articles moved to `/posts` or `/articles` when ready to publish
-   - Local preview works for drafts (via Docker Compose)
-   - Only articles in publish directory trigger syndication on merge to `main`
+   - `draft: true` front matter marks unpublished articles
+   - Remove `draft: true` when an article is ready to publish
+   - Local preview shows drafts in development mode (via Docker Compose)
+   - Only non-draft articles in `blog/` trigger syndication on merge to `main`
 
 5. **Reliability & observability**
    - Workflow succeeds or fails clearly (no silent failures)
@@ -136,7 +136,7 @@ This is fundamentally a **developer tool** - a Git-based automation workflow tha
    - Git-based rollback capability
 
 6. **Local development workflow**
-   - Docker Compose environment spins up local Jekyll/Hugo instance
+   - Docker Compose environment spins up local Docusaurus instance
    - Live reload on file changes
    - Preview drafts and published articles locally before merging
    - Same environment locally as in CI/CD (consistency)
@@ -290,31 +290,31 @@ This section shapes all functional and non-functional requirements below.
 ### FR-1: Content Authoring
 
 **FR-1.1: Markdown Article Creation**
-- User writes articles in pure markdown with YAML front matter
+- User writes articles in Markdown/MDX with YAML front matter
 - Required front matter fields: `title`, `date`, `tags`, `description`, `canonical_url`
 - Support for code blocks with syntax highlighting (inline and fenced)
 - Support for images stored in repository
 - Support for diagrams (Mermaid or similar)
 
 **FR-1.2: Draft Management**
-- Articles placed in `/drafts` directory are not published
-- Drafts visible in local preview via Docker Compose
-- Moving article from `/drafts` to `/posts` or `/articles` makes it publishable
+- Articles with `draft: true` front matter are not published
+- Drafts visible in local preview (development mode) via Docker Compose
+- Removing `draft: true` from an article makes it publishable
 - Git history tracks article evolution from draft to published
 
 **FR-1.3: Local Preview**
-- `docker-compose up` starts local Jekyll/Hugo instance
+- `docker-compose up` starts local Docusaurus instance
 - Live reload on file changes (hot reload)
-- Preview URL accessible at `localhost:4000` (or configured port)
+- Preview URL accessible at `localhost:3000` (or configured port)
 - Drafts and published articles both visible locally
 - Same rendering as production (consistency)
 
 ### FR-2: Static Site Generation
 
 **FR-2.1: Build Process**
-- Jekyll/Hugo/11ty processes markdown to HTML
+- Docusaurus processes Markdown/MDX to HTML
 - Default theme applied (no customization for MVP)
-- Code syntax highlighting automatically applied
+- Code syntax highlighting (Prism) automatically applied
 - Mobile-responsive layouts (default theme provides)
 - Generated site output ready for GitHub Pages deployment
 
@@ -329,12 +329,12 @@ This section shapes all functional and non-functional requirements below.
 
 **FR-3.1: Automated Workflow Trigger**
 - GitHub Actions workflow triggered on merge to `main` branch
-- Workflow detects changed files in `/posts` or `/articles` directory
+- Workflow detects changed files in `blog/` directory
 - Only publishes new or modified articles (not full site republish)
 - Skips workflow if only non-article files changed (README, config, etc.)
 
 **FR-3.2: GitHub Pages Publication**
-- Build static site from markdown source
+- Build static site from Markdown/MDX source
 - Deploy built site to GitHub Pages (`username.github.io/repo-name` or custom)
 - Site available at canonical URL for all articles
 - Update occurs within 5 minutes of merge
@@ -526,7 +526,7 @@ Requirements must be decomposed into epics and bite-sized stories (200k context 
 
 **Technical approach:**
 - Docker Compose for local development
-- Jekyll/Hugo/11ty with default theme (no customization for MVP)
+- Docusaurus 3.9 with default theme (`@docusaurus/preset-classic`, no customization for MVP)
 - GitHub Actions for CI/CD
 - Multi-platform APIs: Dev.to (REST), Medium (REST with limitations), Hashnode (GraphQL)
 

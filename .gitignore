@@ -12,6 +12,9 @@
 .claude/
 .cursor/
 
+# BMAD framework install (vendored tooling — regenerate via installer, don't track)
+/bmad
+
 # Misc
 .DS_Store
 .env.local

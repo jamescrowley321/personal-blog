@@ -1,1 +1,3 @@
-# Documentation\n\nComing soon...
+# Documentation
+
+Coming soon.

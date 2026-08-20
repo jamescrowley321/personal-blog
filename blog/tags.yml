@@ -1,19 +1,24 @@
-facebook:
-  label: Facebook
-  permalink: /facebook
-  description: Facebook tag description
+architecture:
+  label: Architecture
+  permalink: /architecture
+  description: Software and cloud architecture
 
-hello:
-  label: Hello
-  permalink: /hello
-  description: Hello tag description
+kafka:
+  label: Kafka
+  permalink: /kafka
+  description: Apache Kafka and event-driven systems
 
-docusaurus:
-  label: Docusaurus
-  permalink: /docusaurus
-  description: Docusaurus tag description
+durable-execution:
+  label: Durable Execution
+  permalink: /durable-execution
+  description: Durable execution engines and workflow orchestration
 
-hola:
-  label: Hola
-  permalink: /hola
-  description: Hola tag description
+workflow-engines:
+  label: Workflow Engines
+  permalink: /workflow-engines
+  description: Workflow and orchestration engines
+
+ai-generated:
+  label: AI-Generated
+  permalink: /ai-generated
+  description: Posts researched and drafted with AI, reviewed by a human
